@@ -487,8 +487,8 @@ public class GUIInfixPrecedence extends JFrame {
         emptyPanel.setBackground(resources.greyishBlack);
         footerPanel.add(emptyPanel, BorderLayout.NORTH);
 
-        evaluateButtonPanel.setPreferredSize(new Dimension(150,30));
-        iconPanel.setPreferredSize(new Dimension(50,30));
+        evaluateButtonPanel.setPreferredSize(new Dimension(150,25));
+        iconPanel.setPreferredSize(new Dimension(50,25));
 
 
         iconPanel.add(evaluateIcon, BorderLayout.EAST);
@@ -664,7 +664,7 @@ public class GUIInfixPrecedence extends JFrame {
         rightArrow = new ImageIcon(rightArrowImageResized);
 
         evaluateIcon = new JButton(rightArrow);
-        evaluateIcon.setPreferredSize(new Dimension(50,40));
+        evaluateIcon.setPreferredSize(new Dimension(50,35));
         evaluateIcon.setHorizontalAlignment(SwingConstants.RIGHT);
         evaluateIcon.setVerticalAlignment(SwingConstants.BOTTOM);
         evaluateIcon.setOpaque(false);
