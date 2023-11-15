@@ -3,20 +3,20 @@ package lectureProject;
 /**
  * Author: Basti Siccuan
  */
-class Tree {
-    int data;
-    Tree left;
-    Tree right;
-    public Tree(int data){
+class Tree<T> {
+    T data;
+    Tree<T> left;
+    Tree<T> right;
+    public Tree(T data){
         this.data = data;
         this.left = null;
         this.right = null;
     }
-    public int getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(int data) {
+    public void setData(T data) {
         this.data = data;
     }
 
