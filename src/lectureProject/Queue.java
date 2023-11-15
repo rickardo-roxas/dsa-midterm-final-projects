@@ -6,11 +6,12 @@ import Project1.backend.stack.Node;
  */
 public class Queue<T> {
     int size;
-    private Node<T> head;
-    private Node<T> tail;
+    private Node<T> front;
+    private Node<T> rear;
 
     public Queue() {
-        head = tail = new Node<>(null);
+        front = rear = new Node<>(null);
+        size = 0;
     }
 
     public boolean isEmpty() {
@@ -21,15 +22,29 @@ public class Queue<T> {
         return size;
     }
 
-    public T firstElement() {
-        if (!isEmpty() && head.getNext() != null)
-            return head.getNext().getData();
-        else return null;
+    public T peek() {
+        if (!isEmpty())
+            return front.getData();
+        return null;
     }
 
-    public T lastElement() {
-        if (!isEmpty())
-            return tail.getData();
-        else return null;
+    public void enqueue(T data) {
+        Node<T> newNode = new Node<>(data);
+        if (rear == null)
+            front = rear = newNode;
+        else {
+            rear.setNext(newNode);
+            rear = newNode;
+        }
     }
+
+    public void dequeue() {
+        if (!isEmpty()) {
+            Node<T> newFront = front.getNext();
+            front.setNext(null);
+            front = newFront;
+        }
+    }
+
+
 }

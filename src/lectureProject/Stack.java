@@ -44,9 +44,8 @@ public class Stack<T> {
     }
 
     public T peek() {
-        if (!isEmpty()) {
-            return top.getData(); // returns if stack and top is not null
-        } // end of if-else (isEmpty)
+        if (!isEmpty())
+            return top.getData();
         return null;
     }
 
