@@ -3,11 +3,11 @@ package lectureProject;
 /**
  * Author: Basti Siccuan
  */
-class TreeNode {
+class Tree {
     int data;
-    TreeNode left;
-    TreeNode right;
-    public TreeNode(int data){
+    Tree left;
+    Tree right;
+    public Tree(int data){
         this.data = data;
         this.left = null;
         this.right = null;
@@ -20,19 +20,19 @@ class TreeNode {
         this.data = data;
     }
 
-    public TreeNode getLeft() {
+    public Tree getLeft() {
         return left;
     }
 
-    public void setLeft(TreeNode left) {
+    public void setLeft(Tree left) {
         this.left = left;
     }
 
-    public TreeNode getRight() {
+    public Tree getRight() {
         return right;
     }
 
-    public void setRight(TreeNode right) {
+    public void setRight(Tree right) {
         this.right = right;
     }
 }
