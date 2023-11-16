@@ -1,22 +1,38 @@
+/**
+ * Author: John Rey De Torres
+ *
+ * This class represents a generic stack data structure.
+ * It allows elements of a specified type to be pushed onto and popped from the stack.
+ *
+ * @param <T> the type of elements stored in the stack
+ */
 package lectureProject;
 
 public class StackTest {
-
     public static void main(String[] args) {
-        Stack<Integer> stack = new Stack<>();
+        // Demonstrate the usage of the Stack class
 
-        stack.push(1);
-        stack.push(2);
-        stack.push(3);
-        stack.push(4);
-        stack.push(5);
+        // Create a stack of integers
+        Stack<Integer> intStack = new Stack<>();
 
-        System.out.println("Stack size: " + stack.size());
+        // Push some elements onto the stack
+        intStack.push(1);
+        intStack.push(2);
+        intStack.push(3);
+        intStack.push(4);
 
-        while (!stack.isEmpty()) {
-            System.out.println("Pop: " + stack.pop());
-        }
+        // Display the current size of the stack
+        System.out.println("Size of the stack: " + intStack.size());
 
-        System.out.println("Stack size after popping all elements: " + stack.size());
+        // Peek at the top element of the stack
+        System.out.println("Top element: " + intStack.peek());
+
+        // Pop elements from the stack
+        System.out.println("Popped element: " + intStack.pop());
+        System.out.println("Popped element: " + intStack.pop());
+
+        // Display the current size of the stack
+        System.out.println("Size of the stack: " + intStack.size());
     }
 }
+

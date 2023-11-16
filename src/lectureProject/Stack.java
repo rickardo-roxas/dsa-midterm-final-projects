@@ -12,17 +12,17 @@ import Project1.backend.stack.Node;
 
 import java.util.EmptyStackException;
 
-public class Stack<T> {
-    private int count;
-    private Node<T> top;
+        public class Stack<T> {
+            private int count;
+            private Node<T> top;
 
-    public Stack() {
-        count = 0;
-        this.top = null;
-    }
+            public Stack() {
+                count = 0;
+                this.top = null;
+            }
 
-    public void push(T item) {
-        Project1.backend.stack.Node<T> node = new Node<>(item);
+            public void push(T item) {
+                Project1.backend.stack.Node<T> node = new Node<>(item);
         if (!isEmpty())
             node.setNext(top);
 
