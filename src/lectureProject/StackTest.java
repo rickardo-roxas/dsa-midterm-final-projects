@@ -1,6 +1,7 @@
 package lectureProject;
 
-public class Test {
+public class StackTest {
+
     public static void main(String[] args) {
         Stack<Integer> stack = new Stack<>();
 
@@ -18,5 +19,4 @@ public class Test {
 
         System.out.println("Stack size after popping all elements: " + stack.size());
     }
-
 }
