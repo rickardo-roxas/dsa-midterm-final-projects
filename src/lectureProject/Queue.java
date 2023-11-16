@@ -30,12 +30,19 @@ public class Queue<T> {
 
     public void enqueue(T data) {
         Node<T> newNode = new Node<>(data);
-        if (rear == null)
-            front = rear = newNode;
+        if (rear.getData() == null) {
+            front = newNode;
+            rear = newNode;
+        }
         else {
+            if (size==1) {
+                front.setNext(newNode);
+            }
             rear.setNext(newNode);
             rear = newNode;
         }
+        size++;
+
     }
 
     public void dequeue() {
@@ -44,6 +51,13 @@ public class Queue<T> {
             front.setNext(null);
             front = newFront;
         }
+    }
+
+    public T front() {
+        if (!isEmpty()) {
+            return front.getData();
+        }
+        return null;
     }
 
 
