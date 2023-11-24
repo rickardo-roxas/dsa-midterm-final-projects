@@ -13,6 +13,20 @@ public class Edge {
       label = null;
     }
 
+    public Edge(Node start, Node end) {
+        this.start = start;
+        this.end = end;
+        this.weight = 0;
+        this.label = "";
+    }
+
+    public Edge(Node start, Node end, String label) {
+        this.start = start;
+        this.end = end;
+        this.weight = 0;
+        this.label = label;
+    }
+
     public Edge(Node start, Node end, double weight, String label) {
         this.start = start;
         this.end = end;

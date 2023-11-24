@@ -17,5 +17,16 @@ public class Graph {
         this.count = count;
     }
 
-    se
+    public void addNode(Node node) {
+        nodes.add(node);
+        count++;
+    }
+
+    public List<Node> getNodes() {
+        return nodes;
+    }
+
+    public int getCount() {
+        return count;
+    }
 }
