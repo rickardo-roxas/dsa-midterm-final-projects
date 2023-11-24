@@ -7,10 +7,8 @@
  * @param <T> the type of elements stored in the stack
  */
 
-package lectureProject;
+package lecture_project;
 import Project1.backend.stack.Node;
-
-import java.util.EmptyStackException;
 
 public class Stack<T> {
     private int count;
