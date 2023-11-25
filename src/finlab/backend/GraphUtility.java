@@ -23,6 +23,18 @@ public class GraphUtility {
     } // end of loadFile method
 
     private void populateUndirectedGraph(String[] vertices, String[] edges) {
+        Graph undirectedGraph = new Graph();
+        String token = "";
+
+        for (int x = 0; x < vertices.length; x++) {
+            undirectedGraph.addNode(new Node(vertices[x]));
+        }
+
+        for (int x = 0; x < edges.length; x++) {
+            edges = token.split("[(),]+");
+            new Edge();
+        }
+
 
     }
 
