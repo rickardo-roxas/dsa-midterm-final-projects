@@ -1,33 +1,36 @@
 package finlab.backend;
 
 public class Edge {
-    private Node start;
-    private Node end;
+    private Vertex start;
+    private  Vertex end;
     private double weight;
+    private int id;
 
     public Edge() {
-      start = null;
-      end = null;
-      weight = 0.0;
+        start = null;
+        end = null;
+        weight = 0.0;
+        id = 0;
     }
 
-    public Edge(Node start, Node end) {
+    public Edge(Vertex start, Vertex end) {
         this.start = start;
         this.end = end;
-        this.weight = 0;
+        this.weight = 0.0;
+        id = 0;
     }
 
-    public Edge(Node start, Node end, double weight) {
+    public Edge(Vertex start, Vertex end, double weight) {
         this.start = start;
         this.end = end;
         this.weight = weight;
     }
 
-    public void setStart(Node start) {
+    public void setStart(Vertex start) {
         this.start = start;
     }
 
-    public void setEnd(Node end) {
+    public void setEnd(Vertex end) {
         this.end = end;
     }
 
@@ -35,16 +38,24 @@ public class Edge {
         this.weight = weight;
     }
 
-    public Node getStart() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Vertex getStart() {
         return start;
     }
 
-    public Node getEnd() {
+    public Vertex getEnd() {
         return end;
     }
 
     public double getWeight() {
         return weight;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String toString() {
