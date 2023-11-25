@@ -2,6 +2,8 @@ package finlab.frontend;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GraphGUI extends JFrame {
     private Resources resources = new Resources();
@@ -14,7 +16,11 @@ public class GraphGUI extends JFrame {
     private JPanel panelShortestPath;
     private JPanel panelCard;
     private final CardLayout cardLayout = new CardLayout(10,20);
+    private final CardLayout cardLayout2 = new CardLayout(10,20);
 
+    /**
+     * TODO: Documentation
+     */
     public GraphGUI() {
         super("Graph Traversal and Shortest Path");
 
@@ -86,6 +92,23 @@ public class GraphGUI extends JFrame {
 
         btnHome.addActionListener(e-> {
             cardLayout.show(panelCard, "home");
+            btnColorChangeSidebar(btnHome, btnBfs, btnDfs, btnShortestPath);
+        });
+
+        btnDfs.addActionListener(e -> {
+            cardLayout.show(panelCard, "dfs");
+            btnColorChangeSidebar(btnDfs, btnHome, btnBfs, btnShortestPath);
+        });
+
+
+        btnBfs.addActionListener(e -> {
+            cardLayout.show(panelCard, "bfs");
+            btnColorChangeSidebar(btnBfs, btnHome, btnDfs, btnShortestPath);
+        });
+
+        btnShortestPath.addActionListener(e -> {
+            cardLayout.show(panelCard, "shortestPath");
+            btnColorChangeSidebar(btnShortestPath, btnDfs, btnHome, btnBfs);
         });
 
         btnExit.addActionListener(e-> System.exit(0));
@@ -126,11 +149,15 @@ public class GraphGUI extends JFrame {
     private JPanel populatePanelVisual() {
         JPanel panelVisualization = new JPanel();
 
+
+
         return panelVisualization;
     }
 
     private JPanel populatePanelDfs() {
         JPanel panelDfs = new JPanel();
+
+
 
         return panelDfs;
     }
@@ -166,5 +193,12 @@ public class GraphGUI extends JFrame {
         button.setBorderPainted(false);
         button.setFocusable(false);
         return button;
+    }
+
+    private void btnColorChangeSidebar(JButton button1, JButton button2, JButton button3, JButton button4) {
+        button1.setForeground(resources.ultravioletBlue);
+        button2.setForeground(resources.white);
+        button3.setForeground(resources.white);
+        button4.setForeground(resources.white);
     }
 }
