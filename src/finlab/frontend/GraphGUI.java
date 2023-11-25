@@ -1,12 +1,10 @@
 package finlab.frontend;
 
-import midlab2.frontend.Resources;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class GraphGUI extends JFrame {
-    private Resources resources;
+    private Resources resources = new Resources();
     private JPanel panelMain;
     private JPanel panelCenter;
     private JPanel panelSidebar;
@@ -14,19 +12,24 @@ public class GraphGUI extends JFrame {
     private JPanel panelDfs;
     private JPanel panelBfs;
     private JPanel panelShortestPath;
-    private final CardLayout cardLayout = new CardLayout(0,0);
+    private JPanel panelCard;
+    private final CardLayout cardLayout = new CardLayout(10,20);
 
     public GraphGUI() {
         super("Graph Traversal and Shortest Path");
 
         panelMain = new JPanel();
         panelMain.setLayout(new BorderLayout());
-        panelMain.setPreferredSize(new Dimension(800,500));
+        panelMain.setPreferredSize(new Dimension(900,500));
         add(panelMain);
 
-        panelCenter = populatePanelCenter();
-        panelCenter.setPreferredSize(new Dimension(600,500));
+        panelCenter = new JPanel();
+        panelCenter.setPreferredSize(new Dimension(700,500));
         panelMain.add(panelCenter, BorderLayout.CENTER);
+
+        panelCard = new JPanel();
+        panelCard.setLayout(cardLayout);
+        panelCenter.add(panelCard);
 
         panelSidebar = populateSidebar();
         panelSidebar.setPreferredSize(new Dimension(200,500));
@@ -34,52 +37,96 @@ public class GraphGUI extends JFrame {
         panelMain.add(panelSidebar, BorderLayout.WEST);
 
         panelHome = populatePanelHome();
-        panelHome.setPreferredSize(new Dimension());
+        panelHome.setPreferredSize(new Dimension(700,500));
+        panelCard.add(panelHome, "home");
+
         panelDfs = populatePanelDfs();
+        panelDfs.setPreferredSize(new Dimension(700,500));
+        panelCard.add(panelDfs,"dfs");
+
         panelBfs = populatePanelBfs();
+        panelDfs.setPreferredSize(new Dimension(700,500));
+        panelCard.add(panelBfs, "bfs");
+
         panelShortestPath = populatePanelShortestPath();
+        panelShortestPath.setPreferredSize(new Dimension(700,500));
+        panelCard.add(panelShortestPath, "shortestPath");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(800,500);
+        setSize(900,500);
         setResizable(true);
         setLocationRelativeTo(null);
         setVisible(true);
     } // end of GraphGUI constructor
 
-    private JPanel populatePanelCenter() {
-        JPanel panelCenter = new JPanel();
-
-        return panelCenter;
-    }
-
     private JPanel populateSidebar() {
         JPanel panelSidebar = new JPanel();
-        panelSidebar.setLayout(new GridLayout(5,1));
+        panelSidebar.setLayout(new GridLayout(5,1,0,-300));
 
-        JButton btnHome = new JButton();
-        btnHome.setForeground(Color.WHITE);
+        JButton btnHome = createButtonSidebar("Home");
+        btnHome.setHorizontalTextPosition(SwingConstants.LEFT);
+        btnHome.setForeground(resources.white);
         panelSidebar.add(btnHome);
 
-        JButton btnDfs = new JButton();
-        btnDfs.setForeground(Color.WHITE);
+        JButton btnDfs = createButtonSidebar("Depth-First Search");
+        btnDfs.setForeground(resources.white);
         panelSidebar.add(btnDfs);
 
-        JButton btnBfs = new JButton();
+        JButton btnBfs = createButtonSidebar("Breadth-First Search");
+        btnBfs.setForeground(resources.white);
         panelSidebar.add(btnBfs);
 
-        JButton btnShortestPath = new JButton();
+        JButton btnShortestPath = createButtonSidebar("Find Shortest Path");
+        btnShortestPath.setForeground(resources.white);
         panelSidebar.add(btnShortestPath);
 
-        JButton btnExit = new JButton();
+        JButton btnExit = createButtonSidebar("Exit");
+        btnExit.setForeground(resources.white);
         panelSidebar.add(btnExit);
+
+        btnHome.addActionListener(e-> {
+            cardLayout.show(panelCard, "home");
+        });
+
+        btnExit.addActionListener(e-> System.exit(0));
 
         return panelSidebar;
     }
 
     private JPanel populatePanelHome() {
         JPanel panelHome = new JPanel();
+        panelHome.setLayout(new BorderLayout());
+
+        JPanel panelInstructions = new JPanel();
+        panelHome.setPreferredSize(new Dimension(700, 250));
+        panelHome.add(panelInstructions, BorderLayout.NORTH);
+
+        JLabel labelInstructions = new JLabel("Instructions here.");
+        panelInstructions.add(labelInstructions);
+
+        JPanel panelImport = new JPanel();
+        panelImport.setLayout(new FlowLayout());
+        panelImport.setPreferredSize(new Dimension(700, 250));
+        panelHome.add(panelImport, BorderLayout.SOUTH);
+
+        JButton buttonImport = createButtonHome("Import File");
+        panelImport.add(buttonImport);
+
+        buttonImport.addActionListener(e-> {
+            JFileChooser fileChooser = new JFileChooser("graphs");
+            fileChooser.showOpenDialog(null);
+        });
+
+        JButton buttonNext = createButtonHome("Next");
+        panelImport.add(buttonNext);
 
         return panelHome;
+    }
+
+    private JPanel populatePanelVisual() {
+        JPanel panelVisualization = new JPanel();
+
+        return panelVisualization;
     }
 
     private JPanel populatePanelDfs() {
@@ -98,5 +145,26 @@ public class GraphGUI extends JFrame {
         JPanel panelShortestPath = new JPanel();
 
         return panelShortestPath;
+    }
+
+    private JButton createButtonSidebar(String text) {
+        JButton button = new JButton(text);
+        button.setHorizontalAlignment(SwingConstants.LEFT);
+        button.setContentAreaFilled(false);
+        button.setOpaque(false);
+        button.setBorderPainted(false);
+        button.setFocusable(false);
+        return button;
+    }
+
+    private JButton createButtonHome(String text) {
+        JButton button = new JButton(text);
+        button.setFont(resources.montserratBold);
+        button.setForeground(resources.white);
+        button.setBackground(resources.ultravioletBlue);
+        button.setOpaque(true);
+        button.setBorderPainted(false);
+        button.setFocusable(false);
+        return button;
     }
 }
