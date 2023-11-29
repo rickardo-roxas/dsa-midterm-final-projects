@@ -1,5 +1,6 @@
 package finlab.backend;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Graph {
@@ -7,7 +8,7 @@ public class Graph {
     private int count;
 
     public Graph() {
-        nodes = null;
+        nodes = new ArrayList<>();
         count = 0;
     }
 
