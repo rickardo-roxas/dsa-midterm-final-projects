@@ -67,28 +67,45 @@ public class GraphGUI extends JFrame {
 
     private JPanel populateSidebar() {
         JPanel panelSidebar = new JPanel();
-        panelSidebar.setLayout(new GridLayout(5,1,0,-300));
+        panelSidebar.setBackground(resources.richBlack);
+        panelSidebar.setLayout(new BorderLayout());
 
+        JPanel panelButtons = new JPanel();
+        panelButtons.setBackground(resources.richBlack);
+        panelButtons.setPreferredSize(new Dimension(200, 300));
+        panelButtons.setLayout(new GridBagLayout());
+        panelSidebar.add(panelButtons, BorderLayout.CENTER);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = 1;
+        gbc.weightx = 50;
+        gbc.gridx = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+
+        gbc.gridy = 0;
         JButton btnHome = createButtonSidebar("Home");
-        btnHome.setHorizontalTextPosition(SwingConstants.LEFT);
-        btnHome.setForeground(resources.white);
-        panelSidebar.add(btnHome);
+        btnHome.setForeground(resources.ultravioletBlue);
+        panelButtons.add(btnHome, gbc);
 
+        gbc.gridy = 1;
         JButton btnDfs = createButtonSidebar("Depth-First Search");
         btnDfs.setForeground(resources.white);
-        panelSidebar.add(btnDfs);
+        panelButtons.add(btnDfs, gbc);
 
+        gbc.gridy = 2;
         JButton btnBfs = createButtonSidebar("Breadth-First Search");
         btnBfs.setForeground(resources.white);
-        panelSidebar.add(btnBfs);
+        panelButtons.add(btnBfs, gbc);
 
+        gbc.gridy = 3;
         JButton btnShortestPath = createButtonSidebar("Find Shortest Path");
         btnShortestPath.setForeground(resources.white);
-        panelSidebar.add(btnShortestPath);
+        panelButtons.add(btnShortestPath, gbc);
 
+        gbc.gridy = 4;
         JButton btnExit = createButtonSidebar("Exit");
         btnExit.setForeground(resources.white);
-        panelSidebar.add(btnExit);
+        panelButtons.add(btnExit, gbc);
 
         btnHome.addActionListener(e-> {
             cardLayout.show(panelCard, "home");
@@ -143,6 +160,8 @@ public class GraphGUI extends JFrame {
         JButton buttonNext = createButtonHome("Next");
         panelImport.add(buttonNext);
 
+        panelHome.repaint();
+        panelHome.revalidate();
         return panelHome;
     }
 

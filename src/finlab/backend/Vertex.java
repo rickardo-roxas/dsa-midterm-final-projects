@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Vertex {
     private String label;
-    private List<Edge> neighbors = new ArrayList<>();
+    private List<Edge> neighbors;
 
     public Vertex() {
         label = "";
