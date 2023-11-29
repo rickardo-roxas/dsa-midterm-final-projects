@@ -1,4 +1,4 @@
-package lectureProject;
+package lecture_project;
 
 /**
  * Author: Basti Siccuan

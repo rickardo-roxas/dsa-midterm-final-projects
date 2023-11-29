@@ -1,4 +1,4 @@
-package lectureProject;
+package lecture_project;
 
 public class StackTest {
 

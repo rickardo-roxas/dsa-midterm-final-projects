@@ -1,4 +1,4 @@
-package lectureProject;
+package lecture_project;
 import Project1.backend.stack.Node;
 
 /**
