@@ -18,7 +18,7 @@ public class GraphUtility {
             while ((line = br.readLine()) != null) {
                 tokens = line.split(",");
                 for (int x = 0; x < tokens.length; x++) {
-                    graph.addVertex();
+                    // graph.addVertex();
                 }
             }
         } catch (Exception e) {
@@ -27,8 +27,10 @@ public class GraphUtility {
         return graph;
     }
 
-    private List<Vertex> populateVertices(int x)
-    {
+    private List<Vertex> populateVertices(int x) {
+        List<Vertex> vertices = new ArrayList<>();
+
+        return vertices;
 
     }
     public void depthFirstSearch() {

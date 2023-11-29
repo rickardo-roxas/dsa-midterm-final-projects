@@ -2,15 +2,15 @@ package finlab.frontend;
 
 import javax.swing.*;
 
-public class Main {
+public class Main extends Thread {
     Resources resources = new Resources();
     public static void main(String[] args) {
         Main main = new Main();
-        main.run();
-        SwingUtilities.invokeLater(() -> new GraphGUI());
+        main.start();
     }
 
-    private void run() {
+    public void run() {
         resources.loadFonts();
+        SwingUtilities.invokeLater(() -> new GraphGUI());
     }
 }
