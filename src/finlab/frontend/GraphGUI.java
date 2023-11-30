@@ -1,12 +1,13 @@
 package finlab.frontend;
 
+import finlab.backend.GraphUtility;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class GraphGUI extends JFrame {
     private Resources resources = new Resources();
+    private GraphUtility graphUtility = new GraphUtility();
     private JPanel panelMain;
     private JPanel panelCenter;
     private JPanel panelSidebar;
@@ -155,6 +156,12 @@ public class GraphGUI extends JFrame {
         buttonImport.addActionListener(e-> {
             JFileChooser fileChooser = new JFileChooser("graphs");
             fileChooser.showOpenDialog(null);
+
+            try {
+                graphUtility.readFile(fileChooser.getSelectedFile());
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         });
 
         JButton buttonNext = createButtonHome("Next");
