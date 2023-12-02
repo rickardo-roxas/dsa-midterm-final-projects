@@ -47,17 +47,17 @@ public class GraphGUI extends JFrame {
         panelHome.setPreferredSize(new Dimension(700,500));
         panelCard.add(panelHome, "home");
 
-        panelDfs = populatePanelDfs();
+        panelDfs = populatePanelVisualize();
         panelDfs.setPreferredSize(new Dimension(700,500));
-        panelCard.add(panelDfs,"dfs");
+        panelCard.add(panelDfs,"visualize");
 
-        panelBfs = populatePanelBfs();
+        panelBfs = populatePanelTraverse();
         panelDfs.setPreferredSize(new Dimension(700,500));
-        panelCard.add(panelBfs, "bfs");
+        panelCard.add(panelBfs, "traverse");
 
-        panelShortestPath = populatePanelShortestPath();
+        panelShortestPath = populatePanelPath();
         panelShortestPath.setPreferredSize(new Dimension(700,500));
-        panelCard.add(panelShortestPath, "shortestPath");
+        panelCard.add(panelShortestPath, "path");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(900,500);
@@ -89,12 +89,12 @@ public class GraphGUI extends JFrame {
         panelButtons.add(btnHome, gbc);
 
         gbc.gridy = 1;
-        JButton btnDfs = createButtonSidebar("Depth-First Search");
+        JButton btnDfs = createButtonSidebar("Graph Visualization");
         btnDfs.setForeground(resources.white);
         panelButtons.add(btnDfs, gbc);
 
         gbc.gridy = 2;
-        JButton btnBfs = createButtonSidebar("Breadth-First Search");
+        JButton btnBfs = createButtonSidebar("Traverse Graph");
         btnBfs.setForeground(resources.white);
         panelButtons.add(btnBfs, gbc);
 
@@ -114,18 +114,18 @@ public class GraphGUI extends JFrame {
         });
 
         btnDfs.addActionListener(e -> {
-            cardLayout.show(panelCard, "dfs");
+            cardLayout.show(panelCard, "visualize");
             btnColorChangeSidebar(btnDfs, btnHome, btnBfs, btnShortestPath);
         });
 
 
         btnBfs.addActionListener(e -> {
-            cardLayout.show(panelCard, "bfs");
+            cardLayout.show(panelCard, "traverse");
             btnColorChangeSidebar(btnBfs, btnHome, btnDfs, btnShortestPath);
         });
 
         btnShortestPath.addActionListener(e -> {
-            cardLayout.show(panelCard, "shortestPath");
+            cardLayout.show(panelCard, "path");
             btnColorChangeSidebar(btnShortestPath, btnDfs, btnHome, btnBfs);
         });
 
@@ -172,7 +172,7 @@ public class GraphGUI extends JFrame {
         return panelHome;
     }
 
-    private JPanel populatePanelVisual() {
+    private JPanel populatePanelVisualize() {
         JPanel panelVisualization = new JPanel();
 
 
@@ -180,7 +180,7 @@ public class GraphGUI extends JFrame {
         return panelVisualization;
     }
 
-    private JPanel populatePanelDfs() {
+    private JPanel populatePanelTraverse() {
         JPanel panelDfs = new JPanel();
 
 
@@ -188,16 +188,10 @@ public class GraphGUI extends JFrame {
         return panelDfs;
     }
 
-    private JPanel populatePanelBfs() {
+    private JPanel populatePanelPath() {
         JPanel panelBfs = new JPanel();
 
         return panelBfs;
-    }
-
-    private JPanel populatePanelShortestPath() {
-        JPanel panelShortestPath = new JPanel();
-
-        return panelShortestPath;
     }
 
     private JButton createButtonSidebar(String text) {
