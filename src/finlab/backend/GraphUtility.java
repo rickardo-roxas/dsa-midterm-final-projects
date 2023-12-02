@@ -30,18 +30,19 @@ public class GraphUtility {
             br = new BufferedReader(new FileReader(file));
             graph = new Graph();
             String line;
+            int lineNumber = 0;
 
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(",");
                 populateVertices(tokens.length);
 
                 for (int x = 0; x < tokens.length; x++) {
-                    for (int y = 0; y < tokens.length; y++) {
-                        if (!tokens[x].equals("0") && !tokens[y].equals("0")) {
-                            graph.addEdge(graph.getNodes().get(x), graph.getNodes().get(y));
-                        }
+                    if (!tokens[x].equals("0")) {
+                        graph.addEdge(graph.getNodes().get(lineNumber), graph.getNodes().get(x));
                     }
                 }
+
+                lineNumber++;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,14 +57,22 @@ public class GraphUtility {
      * @return ArrayList of nodes.
      */
     private void populateVertices(int verticesCount) {
+        if (graph == null) {
+            graph = new Graph();
+        }
+
         List<Vertex> vertices = new ArrayList<>();
         String labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         char symbol;
 
         for (int i = 0; i < verticesCount; i++) {
             symbol = labels.charAt(i);
-            graph.addVertex(new Vertex(String.valueOf(symbol)));
+            Vertex vertex = new Vertex(String.valueOf(symbol));
+            vertices.add(vertex);
+            graph.addVertex(vertex);
         }
+
+        graph.setNodes(vertices);
     }
 
 
