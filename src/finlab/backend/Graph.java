@@ -10,6 +10,7 @@ public class Graph {
 
     public Graph() {
         nodes = new ArrayList<>();
+        edges = new ArrayList<>();
         count = 0;
     }
 

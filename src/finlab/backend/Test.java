@@ -7,7 +7,7 @@ public class Test {
     public static void main(String[] args) {
         try {
             Graph graph = graphUtility.readFile(new File("graphs/matrix"));
-            graph.getNodes().toString();
+            System.out.println(graph.getNodes().toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

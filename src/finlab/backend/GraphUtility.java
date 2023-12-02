@@ -14,23 +14,11 @@ public class GraphUtility {
         try {
             br = new BufferedReader(new FileReader(file));
             graph = new Graph();
-
             String line;
-            int row = 0;
 
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(",");
-                List<Vertex> vertices = populateVertices(tokens.length);
-
-                for (int column = 0; column < tokens.length; column++) {
-                    int value = Integer.parseInt(tokens[column]);
-                    if (value == 1) {
-                        graph.addVertex(vertices.get(row));
-                        graph.addVertex(vertices.get(column));
-                        // Add an undirected edge between vertices
-                        graph.addEdge(vertices.get(row), vertices.get(column));
-                    }
-                }
+                graph.setNodes(populateVertices(tokens.length));
             }
         } catch (Exception e) {
             e.printStackTrace();
