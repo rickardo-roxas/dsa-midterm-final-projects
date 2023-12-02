@@ -7,7 +7,8 @@ public class Test {
     public static void main(String[] args) {
         try {
             graphUtility.readFile(new File("graphs/matrix"));
-            System.out.println(graphUtility.graph.getNodes().toString());
+            System.out.println("V={" + graphUtility.graph.getNodes().toString() + "}");
+            System.out.println("E={" + graphUtility.graph.getEdges().toString() + "}");
         } catch (Exception e) {
             e.printStackTrace();
         }

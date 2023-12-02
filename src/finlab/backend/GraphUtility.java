@@ -26,6 +26,14 @@ public class GraphUtility {
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(",");
                 graph.setNodes(populateVertices(tokens.length));
+
+                for (int x = 0; x < tokens.length; x++) {
+                    for (int y = 0; y < tokens.length; y++) {
+                        if (tokens[x].equals("1") && tokens[y].equals("1")) {
+                            graph.addEdge(graph.getNodes().get(x), graph.getNodes().get(y));
+                        }
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
