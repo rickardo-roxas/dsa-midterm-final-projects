@@ -1,9 +1,12 @@
 package finlab.frontend;
 
+import finlab.backend.Edge;
+import finlab.backend.Graph;
 import finlab.backend.GraphUtility;
+import finlab.backend.Vertex;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
+import java.util.List;
 
 public class GraphGUI extends JFrame {
     private final Resources resources = new Resources();
@@ -21,6 +24,8 @@ public class GraphGUI extends JFrame {
     private JButton btnTraverse;
     private JButton btnPath;
     private JButton btnExit;
+    private JLabel lblVertices;
+    private JLabel lblEdges;
     private final CardLayout cardLayout = new CardLayout(10,20);
 
     /**
@@ -171,6 +176,8 @@ public class GraphGUI extends JFrame {
                 if (fileChooser.getSelectedFile() != null) {
                     graphUtility.readFile(fileChooser.getSelectedFile());
                     buttonNext.setEnabled(true);
+                    lblVertices.setText("V={" + graphUtility.getGraph().getNodes().toString() + "}");
+                    lblEdges.setText("E={" + graphUtility.getGraph().getEdges().toString() + "}");
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();
@@ -188,11 +195,52 @@ public class GraphGUI extends JFrame {
     }
 
     private JPanel populatePanelVisualize() {
-        JPanel panelVisualization = new JPanel();
+        JPanel panelContainer = new JPanel();
+        panelContainer.setPreferredSize(new Dimension(700,500));
+        panelContainer.setLayout(new BorderLayout());
 
+        // Container Panel Components
+        JPanel panelText = new JPanel();
+        panelText.setPreferredSize(new Dimension(1000,80));
+        panelText.setLayout(new GridLayout(2,1));
+        panelContainer.add(panelText, BorderLayout.NORTH);
 
+        // ! Text Panel Components
+        lblVertices = new JLabel();
+        lblVertices.setHorizontalAlignment(SwingConstants.LEFT);
+        lblVertices.setText("Import file first");
+        panelText.add(lblVertices);
 
-        return panelVisualization;
+        lblEdges = new JLabel();
+        lblEdges.setHorizontalAlignment(SwingConstants.LEFT);
+        panelText.add(lblEdges);
+
+        JScrollPane scrollPane = new JScrollPane(panelText);
+        scrollPane.setPreferredSize(new Dimension(700,80));
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        panelContainer.add(scrollPane, BorderLayout.NORTH);
+
+        // Container Panel Components
+        JPanel panelVisualization = new JPanel() {
+            public void paintComponents(Graphics g) {
+                super.paintComponents(g);
+
+                if (graphUtility.getGraph().getNodes() != null) {
+                    drawGraph(g, graphUtility.getGraph());
+                }
+            }
+        };
+
+        panelVisualization.setPreferredSize(new Dimension(700,420));
+        panelContainer.add(panelVisualization, BorderLayout.SOUTH);
+
+        // ! Visualization Panel Components
+        drawGraph(panelVisualization.getGraphics(), graphUtility.getGraph());
+
+        panelContainer.revalidate();
+        panelContainer.repaint();
+        return panelContainer;
     }
 
     private JPanel populatePanelTraverse() {
@@ -324,4 +372,29 @@ public class GraphGUI extends JFrame {
         label.setHorizontalAlignment(SwingConstants.LEFT);
         return label;
     }
-}
+
+    private void drawGraph(Graphics g, Graph graph) {
+        List<Vertex> vertices = graph.getNodes();
+        List<Edge> edges = graph.getEdges();
+
+        for (Edge edge : edges) {
+            Vertex start = edge.getStart();
+            Vertex end = edge.getEnd();
+
+            int startX = vertices.indexOf(start) * 50 + 50;
+            int startY = 300;
+            int endX = vertices.indexOf(end) * 50 + 50;
+            int endY = 300;
+
+            g.setColor(Color.BLACK);
+            g.drawLine(startX, startY, endX, endY);
+
+            g.setColor(Color.BLUE);
+            g.fillOval(startX - 10, startY - 10, 20, 20);
+            g.fillOval(endX - 10, endY - 10, 20, 20);
+
+            g.setColor(Color.RED);
+            g.drawString(String.valueOf(edge.getWeight()), (startX + endX) / 2, (startY + endY) / 2);
+        }
+    }
+} // end of GraphGUI class

@@ -8,7 +8,15 @@ import java.util.*;
  * TODO: Documentation
  */
 public class GraphUtility {
-    Graph graph;
+    private Graph graph;
+
+    public GraphUtility() {
+        graph = null;
+    }
+
+    public Graph getGraph() {
+        return graph;
+    }
 
     /**
      * TODO: Documentation
@@ -25,7 +33,7 @@ public class GraphUtility {
 
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(",");
-                graph.setNodes(populateVertices(tokens.length));
+                populateVertices(tokens.length);
 
                 for (int x = 0; x < tokens.length; x++) {
                     for (int y = 0; y < tokens.length; y++) {
@@ -47,16 +55,15 @@ public class GraphUtility {
      * @param verticesCount given number of nodes
      * @return ArrayList of nodes.
      */
-    private List<Vertex> populateVertices(int verticesCount) {
+    private void populateVertices(int verticesCount) {
         List<Vertex> vertices = new ArrayList<>();
         String labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         char symbol;
 
         for (int i = 0; i < verticesCount; i++) {
             symbol = labels.charAt(i);
-            vertices.add(new Vertex(String.valueOf(symbol)));
+            graph.addVertex(new Vertex(String.valueOf(symbol)));
         }
-        return vertices;
     }
 
 
