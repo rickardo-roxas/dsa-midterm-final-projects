@@ -3,6 +3,7 @@ package finlab.frontend;
 import finlab.backend.GraphUtility;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class GraphGUI extends JFrame {
     private final Resources resources = new Resources();
@@ -15,8 +16,12 @@ public class GraphGUI extends JFrame {
     private JPanel panelTraverse;
     private JPanel panelPath;
     private JPanel panelCard;
+    private JButton btnHome;
+    private JButton btnVisualize;
+    private JButton btnTraverse;
+    private JButton btnPath;
+    private JButton btnExit;
     private final CardLayout cardLayout = new CardLayout(10,20);
-    private final CardLayout cardLayout2 = new CardLayout(10,20);
 
     /**
      * TODO: Documentation
@@ -86,49 +91,48 @@ public class GraphGUI extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
 
         gbc.gridy = 0;
-        JButton btnHome = createButtonSidebar("Home");
+        btnHome = createButtonSidebar("Home");
         btnHome.setForeground(resources.ultravioletBlue);
         panelButtons.add(btnHome, gbc);
 
         gbc.gridy = 1;
-        JButton btnDfs = createButtonSidebar("Graph Visualization");
-        btnDfs.setForeground(resources.white);
-        panelButtons.add(btnDfs, gbc);
+        btnVisualize = createButtonSidebar("Graph Visualization");
+        btnVisualize.setForeground(resources.white);
+        panelButtons.add(btnVisualize, gbc);
 
         gbc.gridy = 2;
-        JButton btnBfs = createButtonSidebar("Traverse Graph");
-        btnBfs.setForeground(resources.white);
-        panelButtons.add(btnBfs, gbc);
+        btnTraverse = createButtonSidebar("Traverse Graph");
+        btnTraverse.setForeground(resources.white);
+        panelButtons.add(btnTraverse, gbc);
 
         gbc.gridy = 3;
-        JButton btnShortestPath = createButtonSidebar("Find Shortest Path");
-        btnShortestPath.setForeground(resources.white);
-        panelButtons.add(btnShortestPath, gbc);
+        btnPath = createButtonSidebar("Find Shortest Path");
+        btnPath.setForeground(resources.white);
+        panelButtons.add(btnPath, gbc);
 
         gbc.gridy = 4;
-        JButton btnExit = createButtonSidebar("Exit");
+        btnExit = createButtonSidebar("Exit");
         btnExit.setForeground(resources.white);
         panelButtons.add(btnExit, gbc);
 
         btnHome.addActionListener(e-> {
             cardLayout.show(panelCard, "home");
-            btnColorChangeSidebar(btnHome, btnBfs, btnDfs, btnShortestPath);
+            btnColorChangeSidebar(btnHome, btnVisualize, btnTraverse, btnPath);
         });
 
-        btnDfs.addActionListener(e -> {
+        btnVisualize.addActionListener(e -> {
             cardLayout.show(panelCard, "visualize");
-            btnColorChangeSidebar(btnDfs, btnHome, btnBfs, btnShortestPath);
+            btnColorChangeSidebar(btnVisualize, btnHome, btnTraverse, btnPath);
         });
 
-
-        btnBfs.addActionListener(e -> {
+        btnTraverse.addActionListener(e -> {
             cardLayout.show(panelCard, "traverse");
-            btnColorChangeSidebar(btnBfs, btnHome, btnDfs, btnShortestPath);
+            btnColorChangeSidebar(btnTraverse, btnHome, btnVisualize, btnPath);
         });
 
-        btnShortestPath.addActionListener(e -> {
+        btnPath.addActionListener(e -> {
             cardLayout.show(panelCard, "path");
-            btnColorChangeSidebar(btnShortestPath, btnDfs, btnHome, btnBfs);
+            btnColorChangeSidebar(btnPath, btnVisualize, btnHome, btnTraverse);
         });
 
         btnExit.addActionListener(e-> System.exit(0));
@@ -155,19 +159,28 @@ public class GraphGUI extends JFrame {
         JButton buttonImport = createButtonHome("Import File");
         panelImport.add(buttonImport);
 
-        buttonImport.addActionListener(e-> {
+        JButton buttonNext = createButtonHome("Next");
+        buttonNext.setEnabled(false);
+        panelImport.add(buttonNext);
+
+        buttonImport.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser("graphs");
             fileChooser.showOpenDialog(null);
 
             try {
-                graphUtility.readFile(fileChooser.getSelectedFile());
+                if (fileChooser.getSelectedFile() != null) {
+                    graphUtility.readFile(fileChooser.getSelectedFile());
+                    buttonNext.setEnabled(true);
+                }
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
         });
 
-        JButton buttonNext = createButtonHome("Next");
-        panelImport.add(buttonNext);
+        buttonNext.addActionListener(e -> {
+            cardLayout.show(panelCard,"visualize");
+            btnColorChangeSidebar(btnVisualize, btnHome, btnTraverse, btnPath);
+        });
 
         panelHome.repaint();
         panelHome.revalidate();

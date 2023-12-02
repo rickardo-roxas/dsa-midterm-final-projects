@@ -4,12 +4,19 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 
-
+/**
+ * TODO: Documentation
+ */
 public class GraphUtility {
+    Graph graph;
 
-    public Graph readFile(File file) throws Exception {
+    /**
+     * TODO: Documentation
+     * @param file given file path
+     * @throws Exception if error or exception occurs
+     */
+    public void readFile(File file) throws Exception {
         BufferedReader br;
-        Graph graph;
 
         try {
             br = new BufferedReader(new FileReader(file));
@@ -25,9 +32,13 @@ public class GraphUtility {
             e.getMessage();
             throw new Exception();
         }
-        return graph;
     }
 
+    /**
+     * TODO: Documentation
+     * @param verticesCount given number of nodes
+     * @return ArrayList of nodes.
+     */
     private List<Vertex> populateVertices(int verticesCount) {
         List<Vertex> vertices = new ArrayList<>();
         String labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -40,11 +51,16 @@ public class GraphUtility {
         return vertices;
     }
 
-    public void depthFirstSearch() {
+
+    public void depthFirstSearch(Vertex start, Vertex end) {
         // TODO: write corresponding code here
     }
 
-    public void breadthFirstSearch() {
+    public void breadthFirstSearch(Vertex start, Vertex end) {
         // TODO: write corresponding code here
+    }
+
+    public void dijkstraShortestPath(Vertex start) {
+
     }
 }
