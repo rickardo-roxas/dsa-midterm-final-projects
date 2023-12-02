@@ -1,20 +1,19 @@
 package finlab.frontend;
 
 import finlab.backend.GraphUtility;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class GraphGUI extends JFrame {
-    private Resources resources = new Resources();
+    private final Resources resources = new Resources();
     private GraphUtility graphUtility = new GraphUtility();
     private JPanel panelMain;
     private JPanel panelCenter;
     private JPanel panelSidebar;
     private JPanel panelHome;
-    private JPanel panelDfs;
-    private JPanel panelBfs;
-    private JPanel panelShortestPath;
+    private JPanel panelVisualize;
+    private JPanel panelTraverse;
+    private JPanel panelPath;
     private JPanel panelCard;
     private final CardLayout cardLayout = new CardLayout(10,20);
     private final CardLayout cardLayout2 = new CardLayout(10,20);
@@ -47,17 +46,20 @@ public class GraphGUI extends JFrame {
         panelHome.setPreferredSize(new Dimension(700,500));
         panelCard.add(panelHome, "home");
 
-        panelDfs = populatePanelVisualize();
-        panelDfs.setPreferredSize(new Dimension(700,500));
-        panelCard.add(panelDfs,"visualize");
+        panelVisualize = populatePanelVisualize();
+        panelVisualize.setPreferredSize(new Dimension(700,500));
+        panelCard.add(panelVisualize,"visualize");
 
-        panelBfs = populatePanelTraverse();
-        panelDfs.setPreferredSize(new Dimension(700,500));
-        panelCard.add(panelBfs, "traverse");
+        panelTraverse = populatePanelTraverse();
+        panelTraverse.setPreferredSize(new Dimension(700,500));
+        panelCard.add(panelTraverse, "traverse");
 
-        panelShortestPath = populatePanelPath();
-        panelShortestPath.setPreferredSize(new Dimension(700,500));
-        panelCard.add(panelShortestPath, "path");
+        panelPath = populatePanelPath();
+        panelPath.setPreferredSize(new Dimension(700,500));
+        panelCard.add(panelPath, "path");
+
+        revalidate();
+        repaint();
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(900,500);
@@ -181,11 +183,79 @@ public class GraphGUI extends JFrame {
     }
 
     private JPanel populatePanelTraverse() {
-        JPanel panelDfs = new JPanel();
+        JPanel panelContainer = new JPanel();
+        panelContainer.setLayout(new BorderLayout());
 
+        // Input Panel
+        JPanel panelInput = new JPanel();
+        panelInput.setPreferredSize(new Dimension(700,120));
+        panelInput.setLayout(new GridLayout(3,1));
+        panelContainer.add(panelInput, BorderLayout.NORTH);
 
+        // ! Input Panel Components
+        JPanel panelText = new JPanel();
+        panelText.setPreferredSize(new Dimension(700, 40));
+        panelText.setLayout(new FlowLayout());
+        panelInput.add(panelText);
 
-        return panelDfs;
+        // !! Text Panel Components
+        JLabel lblStartNode = createLabel("Starting Node:", resources.richBlack);
+        panelText.add(lblStartNode);
+
+        JTextField txtFieldStartNode = new JTextField();
+        txtFieldStartNode.setColumns(10);
+        panelText.add(txtFieldStartNode);
+
+        JLabel lblEndNode = createLabel("End Node:", resources.richBlack);
+        panelText.add(lblEndNode);
+
+        JTextField txtFieldEndNode = new JTextField();
+        txtFieldEndNode.setColumns(10);
+        panelText.add(txtFieldEndNode);
+
+        // ! Input Panel Components
+        JPanel panelRadio = new JPanel();
+        panelRadio.setPreferredSize(new Dimension(700,40));
+        panelRadio.setLayout(new FlowLayout());
+        panelInput.add(panelRadio);
+
+        // !! Radio Panel
+        JLabel labelAlgo = createLabel("Search Algorithm:" , resources.richBlack);
+        panelRadio.add(labelAlgo);
+
+        JRadioButton radioBtnBfs = new JRadioButton();
+        radioBtnBfs.setText("Breadth-first Search");
+        radioBtnBfs.setForeground(resources.ultravioletBlue);
+        panelRadio.add(radioBtnBfs);
+
+        JRadioButton radioBtnDfs = new JRadioButton();
+        radioBtnDfs.setText("Depth-first Search");
+        radioBtnDfs.setForeground(resources.ultravioletBlue);
+        panelRadio.add(radioBtnDfs);
+
+        ButtonGroup btnGrpRadio = new ButtonGroup();
+        btnGrpRadio.add(radioBtnBfs);
+        btnGrpRadio.add(radioBtnDfs);
+
+        // ! Buttons Panel
+        JPanel panelButtons = new JPanel();
+        panelButtons.setPreferredSize(new Dimension(700,40));
+        panelButtons.setLayout(new FlowLayout());
+        panelInput.add(panelButtons);
+
+        // !! Buttons Panel Components
+        JButton btnClear = createButtonTraverse("Clear");
+        panelButtons.add(btnClear);
+
+        JButton btnTraverse = createButtonTraverse("Traverse");
+        panelButtons.add(btnTraverse);
+
+        // Output Panel
+        JPanel panelOutput = new JPanel();
+        panelOutput.setPreferredSize(new Dimension(700,380));
+        panelContainer.add(panelOutput, BorderLayout.SOUTH);
+
+        return panelContainer;
     }
 
     private JPanel populatePanelPath() {
@@ -215,10 +285,30 @@ public class GraphGUI extends JFrame {
         return button;
     }
 
+    private JButton createButtonTraverse(String text) {
+        JButton button = new JButton(text);
+        button.setFont(resources.montserratBold);
+        button.setForeground(resources.white);
+        button.setBackground(resources.ultravioletBlue);
+        button.setOpaque(true);
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(true);
+        button.setFocusable(false);
+        return button;
+    }
+
     private void btnColorChangeSidebar(JButton button1, JButton button2, JButton button3, JButton button4) {
         button1.setForeground(resources.ultravioletBlue);
         button2.setForeground(resources.white);
         button3.setForeground(resources.white);
         button4.setForeground(resources.white);
+    }
+
+    private JLabel createLabel(String text, Color color) {
+        JLabel label = new JLabel();
+        label.setText(text);
+        label.setForeground(color);
+        label.setHorizontalAlignment(SwingConstants.LEFT);
+        return label;
     }
 }

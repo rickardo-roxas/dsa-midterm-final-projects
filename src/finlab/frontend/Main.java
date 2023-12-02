@@ -8,6 +8,7 @@ public class Main extends Thread {
     public static void main(String[] args) {
         Main main = new Main();
         main.start();
+        main.run();
     }
 
     public void run() {
