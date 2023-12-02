@@ -29,7 +29,7 @@ public class GraphUtility {
 
                 for (int x = 0; x < tokens.length; x++) {
                     for (int y = 0; y < tokens.length; y++) {
-                        if (tokens[x].equals("1") && tokens[y].equals("1")) {
+                        if (!tokens[x].equals("0") && !tokens[y].equals("0")) {
                             graph.addEdge(graph.getNodes().get(x), graph.getNodes().get(y));
                         }
                     }
