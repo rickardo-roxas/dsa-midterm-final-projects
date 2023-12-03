@@ -29,12 +29,11 @@ public class GraphUtility {
      */
     public void readFile(File file) throws Exception {
         BufferedReader br;
-
         try {
             br = new BufferedReader(new FileReader(file));
             graph = new Graph();
             String line;
-            int lineNumber = 0;
+            int y = 0;
 
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(",");
@@ -42,11 +41,10 @@ public class GraphUtility {
 
                 for (int x = 0; x < tokens.length; x++) {
                     if (!tokens[x].equals("0")) {
-                        graph.addEdge(graph.getNodes().get(lineNumber), graph.getNodes().get(x));
+                        graph.addEdge(graph.getNodes().get(y), graph.getNodes().get(x));
                     }
                 }
-
-                lineNumber++;
+                y++;
             }
         } catch (Exception e) {
             e.printStackTrace();
