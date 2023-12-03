@@ -59,34 +59,32 @@ public class GraphUtility {
      * @return ArrayList of nodes.
      */
     private void populateVertices(int verticesCount) {
-        if (graph == null) {
+        if (graph != null) {
+            List<Vertex> vertices = new ArrayList<>();
+            String labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            char symbol;
+
+            for (int i = 0; i < verticesCount; i++) {
+                symbol = labels.charAt(i);
+                Vertex vertex = new Vertex(String.valueOf(symbol));
+                vertices.add(vertex);
+                graph.addVertex(vertex);
+            }
+            graph.setNodes(vertices);
+        } else {
             graph = new Graph();
         }
-
-        List<Vertex> vertices = new ArrayList<>();
-        String labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        char symbol;
-
-        for (int i = 0; i < verticesCount; i++) {
-            symbol = labels.charAt(i);
-            Vertex vertex = new Vertex(String.valueOf(symbol));
-            vertices.add(vertex);
-            graph.addVertex(vertex);
-        }
-
-        graph.setNodes(vertices);
     }
 
-
-    public void depthFirstSearch(Vertex start, Vertex end) {
+    public void depthFirstSearch(Vertex start) {
         // TODO: write corresponding code here
     }
 
-    public void breadthFirstSearch(Vertex start, Vertex end) {
+    public void breadthFirstSearch(Vertex start) {
         // TODO: write corresponding code here
     }
 
-    public void dijkstraShortestPath(Vertex start) {
+    public void dijkstraShortestPath(Vertex start, Vertex end) {
 
     }
 }

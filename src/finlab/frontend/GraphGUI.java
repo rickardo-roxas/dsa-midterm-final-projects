@@ -341,13 +341,6 @@ public class GraphGUI extends JFrame {
         txtFieldStartNode.setColumns(10);
         panelText.add(txtFieldStartNode);
 
-        JLabel lblEndNode = createLabel("End Node:", resources.richBlack);
-        panelText.add(lblEndNode);
-
-        JTextField txtFieldEndNode = new JTextField();
-        txtFieldEndNode.setColumns(10);
-        panelText.add(txtFieldEndNode);
-
         // ! Input Panel Components
         JPanel panelRadio = new JPanel();
         panelRadio.setPreferredSize(new Dimension(700,40));
@@ -390,13 +383,82 @@ public class GraphGUI extends JFrame {
         panelOutput.setPreferredSize(new Dimension(700,380));
         panelContainer.add(panelOutput, BorderLayout.SOUTH);
 
+        panelContainer.revalidate();
+        panelContainer.repaint();
         return panelContainer;
     }
 
     private JPanel populatePanelPath() {
-        JPanel panelBfs = new JPanel();
+        JPanel panelContainer = new JPanel();
+        panelContainer.setLayout(new BorderLayout());
 
-        return panelBfs;
+        // Input Panel
+        JPanel panelInput = new JPanel();
+        panelInput.setPreferredSize(new Dimension(700,120));
+        panelInput.setLayout(new GridLayout(3,1));
+        panelContainer.add(panelInput, BorderLayout.NORTH);
+
+        // ! Input Panel Components
+        JPanel panelText = new JPanel();
+        panelText.setPreferredSize(new Dimension(700, 40));
+        panelText.setLayout(new FlowLayout());
+        panelInput.add(panelText);
+
+        // !! Text Panel Components
+        JLabel lblStartNode = createLabel("Starting Node:", resources.richBlack);
+        panelText.add(lblStartNode);
+
+        JTextField txtFieldStartNode = new JTextField();
+        txtFieldStartNode.setColumns(10);
+        panelText.add(txtFieldStartNode);
+
+        JLabel lblEndNode = createLabel("End Node:", resources.richBlack);
+        panelText.add(lblEndNode);
+
+        JTextField txtFieldEndNode = new JTextField();
+        txtFieldEndNode.setColumns(10);
+        panelText.add(txtFieldEndNode);
+
+        // ! Input Panel Components
+        JPanel panelRadio = new JPanel();
+        panelRadio.setPreferredSize(new Dimension(700,40));
+        panelRadio.setLayout(new FlowLayout());
+        panelInput.add(panelRadio);
+
+        // !! Radio Panel
+        JLabel labelAlgo = createLabel("Search Algorithm:" , resources.richBlack);
+        panelRadio.add(labelAlgo);
+
+        JRadioButton radioBtnDijkstra = new JRadioButton();
+        radioBtnDijkstra.setText("Dijkstra's Algorithm");
+        radioBtnDijkstra.setForeground(resources.ultravioletBlue);
+        panelRadio.add(radioBtnDijkstra);
+
+        ButtonGroup btnGrpRadio = new ButtonGroup();
+        btnGrpRadio.add(radioBtnDijkstra);
+
+        // ! Buttons Panel
+        JPanel panelButtons = new JPanel();
+        panelButtons.setPreferredSize(new Dimension(700,40));
+        panelButtons.setLayout(new FlowLayout());
+        panelInput.add(panelButtons);
+
+        // !! Buttons Panel Components
+        JButton btnClear = createButtonTraverse("Clear");
+        panelButtons.add(btnClear);
+
+        JButton btnFind = createButtonTraverse("Find Path");
+        panelButtons.add(btnFind);
+
+        // Output Panel
+        JPanel panelOutput = new JPanel();
+        panelOutput.setPreferredSize(new Dimension(700,380));
+        panelContainer.add(panelOutput, BorderLayout.SOUTH);
+
+
+        panelContainer.revalidate();
+        panelContainer.repaint();
+        return panelContainer;
     }
 
     private JButton createButtonSidebar(String text) {
