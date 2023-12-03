@@ -163,6 +163,7 @@ public class GraphGUI extends JFrame {
 
     private JPanel populatePanelHome() {
         JPanel panelContainer = new JPanel();
+        panelContainer.setBorder(resources.normalPadding);
         panelContainer.setLayout(new BorderLayout());
 
         JPanel panelHeader = new JPanel();
@@ -203,31 +204,31 @@ public class GraphGUI extends JFrame {
 
     private JPanel populatePanelImport() {
         JPanel panelContainer = new JPanel();
+        panelContainer.setBorder(resources.normalPadding);
         panelContainer.setLayout(new BorderLayout());
 
         JPanel panelImport = new JPanel();
         panelImport.setLayout(new FlowLayout());
-        panelImport.setPreferredSize(new Dimension(700, 80));
+        panelImport.setPreferredSize(new Dimension(700, 100));
         panelContainer.add(panelImport, BorderLayout.NORTH);
 
         // Import Panel Components
         JButton btnImport = createButtonHome("Import File");
-        panelImport.add(btnImport);
+        panelImport.add(btnImport, BorderLayout.NORTH);
 
         JPanel panelMatrix = new JPanel();
         panelMatrix.setLayout(new BorderLayout());
-        panelMatrix.setPreferredSize(new Dimension(700,900));
+        panelMatrix.setPreferredSize(new Dimension(900,400));
 
         // Matrix Panel Components
 
-        JTextArea txtAreaMatrix = new JTextArea();
+        JTextArea txtAreaMatrix = createTextAreaOutput();
         txtAreaMatrix.setText("Import file first.");
-        txtAreaMatrix.setColumns(50);
         panelMatrix.add(txtAreaMatrix, BorderLayout.CENTER);
 
         // Matrix Panel Scroll Pane
         JScrollPane scrollPane = new JScrollPane(panelMatrix);
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         panelContainer.add(scrollPane, BorderLayout.CENTER);
 
@@ -281,6 +282,7 @@ public class GraphGUI extends JFrame {
 
         btnNext.addActionListener(e -> {
             cardLayout.show(panelCard,"visualize");
+            btnImport.setForeground(resources.white);
             btnColorChangeSidebar(btnVisualize, btnHome, btnTraverse, btnPath, btnImport);
         });
 
@@ -291,6 +293,7 @@ public class GraphGUI extends JFrame {
 
     private JPanel populatePanelVisualize() {
         JPanel panelContainer = new JPanel();
+        panelContainer.setBorder(resources.normalPadding);
         panelContainer.setPreferredSize(new Dimension(700,500));
         panelContainer.setLayout(new BorderLayout());
 
@@ -323,6 +326,7 @@ public class GraphGUI extends JFrame {
 
     private JPanel populatePanelTraverse() {
         JPanel panelContainer = new JPanel();
+        panelContainer.setBorder(resources.normalPadding);
         panelContainer.setLayout(new BorderLayout());
 
         // Input Panel
@@ -384,8 +388,12 @@ public class GraphGUI extends JFrame {
 
         // Output Panel
         JPanel panelOutput = new JPanel();
-        panelOutput.setPreferredSize(new Dimension(700,380));
+        panelOutput.setPreferredSize(new Dimension(700,300));
         panelContainer.add(panelOutput, BorderLayout.SOUTH);
+
+        // ! Output Panel Components
+        JTextArea txtAreaOutput = createTextAreaOutput();
+        panelOutput.add(txtAreaOutput);
 
         panelContainer.revalidate();
         panelContainer.repaint();
@@ -394,6 +402,7 @@ public class GraphGUI extends JFrame {
 
     private JPanel populatePanelPath() {
         JPanel panelContainer = new JPanel();
+        panelContainer.setBorder(resources.normalPadding);
         panelContainer.setLayout(new BorderLayout());
 
         // Input Panel
@@ -456,8 +465,11 @@ public class GraphGUI extends JFrame {
 
         // Output Panel
         JPanel panelOutput = new JPanel();
-        panelOutput.setPreferredSize(new Dimension(700,380));
+        panelOutput.setPreferredSize(new Dimension(700,300));
         panelContainer.add(panelOutput, BorderLayout.SOUTH);
+
+        JTextArea txtAreaOutput = createTextAreaOutput();
+        panelOutput.add(txtAreaOutput);
 
         panelContainer.revalidate();
         panelContainer.repaint();
@@ -513,5 +525,11 @@ public class GraphGUI extends JFrame {
         return label;
     }
 
-    // private void
+    private JTextArea createTextAreaOutput() {
+        JTextArea textArea = new JTextArea();
+        textArea.setColumns(50);
+        textArea.setRows(12);
+        textArea.setEditable(false);
+        return textArea;
+    }
 } // end of GraphGUI class
