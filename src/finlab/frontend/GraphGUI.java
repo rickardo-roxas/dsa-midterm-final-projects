@@ -12,10 +12,12 @@ public class GraphGUI extends JFrame {
     private JPanel panelSidebar;
     private JPanel panelHome;
     private JPanel panelVisualize;
+    private JPanel panelImport;
     private JPanel panelTraverse;
     private JPanel panelPath;
     private JPanel panelCard;
     private JButton btnHome;
+    private JButton btnImport;
     private JButton btnVisualize;
     private JButton btnTraverse;
     private JButton btnPath;
@@ -51,6 +53,10 @@ public class GraphGUI extends JFrame {
         panelHome = populatePanelHome();
         panelHome.setPreferredSize(new Dimension(700,500));
         panelCard.add(panelHome, "home");
+
+        panelImport = populatePanelImport();
+        panelImport.setPreferredSize(new Dimension(700,500));
+        panelCard.add(panelImport, "import");
 
         panelVisualize = populatePanelVisualize();
         panelVisualize.setPreferredSize(new Dimension(700,500));
@@ -97,43 +103,53 @@ public class GraphGUI extends JFrame {
         panelButtons.add(btnHome, gbc);
 
         gbc.gridy = 1;
+        btnImport = createButtonSidebar("Import File");
+        btnImport.setForeground(resources.white);
+        panelButtons.add(btnImport, gbc);
+
+        gbc.gridy = 2;
         btnVisualize = createButtonSidebar("Graph Visualization");
         btnVisualize.setForeground(resources.white);
         panelButtons.add(btnVisualize, gbc);
 
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         btnTraverse = createButtonSidebar("Traverse Graph");
         btnTraverse.setForeground(resources.white);
         panelButtons.add(btnTraverse, gbc);
 
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         btnPath = createButtonSidebar("Find Shortest Path");
         btnPath.setForeground(resources.white);
         panelButtons.add(btnPath, gbc);
 
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         btnExit = createButtonSidebar("Exit");
         btnExit.setForeground(resources.white);
         panelButtons.add(btnExit, gbc);
 
         btnHome.addActionListener(e-> {
             cardLayout.show(panelCard, "home");
-            btnColorChangeSidebar(btnHome, btnVisualize, btnTraverse, btnPath);
+            btnColorChangeSidebar(btnHome, btnImport, btnVisualize, btnTraverse, btnPath);
+        });
+
+        btnImport.addActionListener(e -> {
+            cardLayout.show(panelCard, "import");
+            btnColorChangeSidebar(btnImport, btnHome, btnPath, btnTraverse, btnVisualize);
         });
 
         btnVisualize.addActionListener(e -> {
             cardLayout.show(panelCard, "visualize");
-            btnColorChangeSidebar(btnVisualize, btnHome, btnTraverse, btnPath);
+            btnColorChangeSidebar(btnVisualize, btnHome, btnTraverse, btnPath, btnImport);
         });
 
         btnTraverse.addActionListener(e -> {
             cardLayout.show(panelCard, "traverse");
-            btnColorChangeSidebar(btnTraverse, btnHome, btnVisualize, btnPath);
+            btnColorChangeSidebar(btnTraverse, btnHome, btnVisualize, btnPath, btnImport);
         });
 
         btnPath.addActionListener(e -> {
             cardLayout.show(panelCard, "path");
-            btnColorChangeSidebar(btnPath, btnVisualize, btnHome, btnTraverse);
+            btnColorChangeSidebar(btnPath, btnVisualize, btnHome, btnTraverse, btnImport);
         });
 
         btnExit.addActionListener(e-> System.exit(0));
@@ -142,20 +158,53 @@ public class GraphGUI extends JFrame {
     }
 
     private JPanel populatePanelHome() {
-        JPanel panelHome = new JPanel();
-        panelHome.setLayout(new BorderLayout());
+        JPanel panelContainer = new JPanel();
+        panelContainer.setLayout(new BorderLayout());
+
+        JPanel panelHeader = new JPanel();
+        panelHeader.setPreferredSize(new Dimension(700,100));
+        panelContainer.add(panelHeader, BorderLayout.NORTH);
+
+        JLabel lblHeader = new JLabel();
+        lblHeader.setText("Welcome to Graph Theory");
+        lblHeader.setFont(resources.montserratBold);
+        lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
+        lblHeader.setVerticalAlignment(SwingConstants.CENTER);
+        panelHeader.add(lblHeader);
 
         JPanel panelInstructions = new JPanel();
-        panelHome.setPreferredSize(new Dimension(700, 250));
-        panelHome.add(panelInstructions, BorderLayout.NORTH);
+        panelContainer.setPreferredSize(new Dimension(700, 300));
+        panelContainer.add(panelInstructions, BorderLayout.CENTER);
 
         JLabel labelInstructions = new JLabel("Instructions here.");
         panelInstructions.add(labelInstructions);
 
+        JPanel panelButtons = new JPanel();
+        panelButtons.setPreferredSize(new Dimension(700, 100));
+        panelButtons.setLayout(new FlowLayout());
+        panelContainer.add(panelButtons, BorderLayout.SOUTH);
+
+        JButton btnContinue = createButtonHome("Continue");
+        panelButtons.add(btnContinue);
+
+        btnContinue.addActionListener(e -> {
+            cardLayout.show(panelCard, "import");
+            btnColorChangeSidebar(btnImport, btnHome, btnVisualize, btnTraverse, btnPath);
+        });
+
+        panelContainer.repaint();
+        panelContainer.revalidate();
+        return panelContainer;
+    }
+
+    private JPanel populatePanelImport() {
+        JPanel panelContainer = new JPanel();
+        panelContainer.setLayout(new BorderLayout());
+
         JPanel panelImport = new JPanel();
         panelImport.setLayout(new FlowLayout());
-        panelImport.setPreferredSize(new Dimension(700, 250));
-        panelHome.add(panelImport, BorderLayout.SOUTH);
+        panelImport.setPreferredSize(new Dimension(700, 100));
+        panelContainer.add(panelImport, BorderLayout.NORTH);
 
         JButton buttonImport = createButtonHome("Import File");
         panelImport.add(buttonImport);
@@ -163,6 +212,10 @@ public class GraphGUI extends JFrame {
         JButton buttonNext = createButtonHome("Next");
         buttonNext.setEnabled(false);
         panelImport.add(buttonNext);
+
+        JPanel panelMatrix = new JPanel();
+        panelMatrix.setPreferredSize(new Dimension(700,200));
+        panelHome.add(panelMatrix, BorderLayout.CENTER);
 
         buttonImport.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser("graphs");
@@ -182,12 +235,12 @@ public class GraphGUI extends JFrame {
 
         buttonNext.addActionListener(e -> {
             cardLayout.show(panelCard,"visualize");
-            btnColorChangeSidebar(btnVisualize, btnHome, btnTraverse, btnPath);
+            btnColorChangeSidebar(btnVisualize, btnHome, btnTraverse, btnPath, btnImport);
         });
 
-        panelHome.repaint();
-        panelHome.revalidate();
-        return panelHome;
+        panelContainer.revalidate();
+        panelContainer.repaint();
+        return panelContainer;
     }
 
     private JPanel populatePanelVisualize() {
@@ -337,11 +390,12 @@ public class GraphGUI extends JFrame {
         return button;
     }
 
-    private void btnColorChangeSidebar(JButton button1, JButton button2, JButton button3, JButton button4) {
+    private void btnColorChangeSidebar(JButton button1, JButton button2, JButton button3, JButton button4, JButton button5) {
         button1.setForeground(resources.ultravioletBlue);
         button2.setForeground(resources.white);
         button3.setForeground(resources.white);
         button4.setForeground(resources.white);
+        button5.setForeground(resources.white);
     }
 
     private JLabel createLabel(String text, Color color) {
