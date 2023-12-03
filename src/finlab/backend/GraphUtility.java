@@ -81,9 +81,42 @@ public class GraphUtility {
         // TODO: write corresponding code here
     }
 
-    public void breadthFirstSearch(Vertex start) {
-        // TODO: write corresponding code here
+    /**
+     * The following code returns the Breadth-First Search traversal (ArrayList) of a graph given a starting node.
+     * @param start
+     * @return
+     */
+    public ArrayList<Vertex> breadthFirstSearch(Vertex start) {
+        Queue<Vertex> queue = new LinkedList<>();
+        ArrayList<Vertex> visited = new ArrayList<>();
+
+        visited.add(start);
+        queue.add(start);
+
+        while (!queue.isEmpty()) {
+            Vertex curr = queue.poll();
+
+
+            List<Edge> edges = graph.getEdges();
+
+            for (Edge edge : edges){
+                if (edge.getStart().equals(curr)){
+                    Vertex neighbor = edge.getEnd();
+
+                    if (!visited.contains(neighbor) && !queue.contains(neighbor)){
+                        queue.add(neighbor);
+                        visited.add(neighbor);
+                    }
+                }
+
+            }
+
+        }
+
+        return visited;
     }
+
+
 
     public void dijkstraShortestPath(Vertex start, Vertex end) {
 
