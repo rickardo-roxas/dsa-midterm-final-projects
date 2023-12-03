@@ -1,8 +1,12 @@
 package finlab.frontend;
 
+import finlab.backend.Graph;
 import finlab.backend.GraphUtility;
 import javax.swing.*;
 import java.awt.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class GraphGUI extends JFrame {
     private final Resources resources = new Resources();
@@ -159,6 +163,7 @@ public class GraphGUI extends JFrame {
 
     private JPanel populatePanelHome() {
         JPanel panelContainer = new JPanel();
+        panelContainer.setBorder(resources.normalPadding);
         panelContainer.setLayout(new BorderLayout());
 
         JPanel panelHeader = new JPanel();
@@ -199,35 +204,31 @@ public class GraphGUI extends JFrame {
 
     private JPanel populatePanelImport() {
         JPanel panelContainer = new JPanel();
+        panelContainer.setBorder(resources.normalPadding);
         panelContainer.setLayout(new BorderLayout());
 
         JPanel panelImport = new JPanel();
         panelImport.setLayout(new FlowLayout());
-        panelImport.setPreferredSize(new Dimension(700, 80));
+        panelImport.setPreferredSize(new Dimension(700, 100));
         panelContainer.add(panelImport, BorderLayout.NORTH);
 
         // Import Panel Components
         JButton btnImport = createButtonHome("Import File");
-        panelImport.add(btnImport);
-
-        JButton btnGenerate = createButtonHome("Generate Matrix");
-        btnGenerate.setEnabled(false);
-        panelImport.add(btnGenerate);
+        panelImport.add(btnImport, BorderLayout.NORTH);
 
         JPanel panelMatrix = new JPanel();
         panelMatrix.setLayout(new BorderLayout());
-        panelMatrix.setPreferredSize(new Dimension(700,900));
+        panelMatrix.setPreferredSize(new Dimension(900,400));
 
         // Matrix Panel Components
-        JLabel lblHeader = createLabel("Adjacency Matrix", resources.richBlack);
-        lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
-        lblHeader.setVerticalAlignment(SwingConstants.TOP);
-        panelMatrix.add(lblHeader, BorderLayout.NORTH);
 
+        JTextArea txtAreaMatrix = createTextAreaOutput();
+        txtAreaMatrix.setText("Import file first.");
+        panelMatrix.add(txtAreaMatrix, BorderLayout.CENTER);
 
         // Matrix Panel Scroll Pane
         JScrollPane scrollPane = new JScrollPane(panelMatrix);
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         panelContainer.add(scrollPane, BorderLayout.CENTER);
 
@@ -254,29 +255,34 @@ public class GraphGUI extends JFrame {
                 if (fileChooser.getSelectedFile() != null) {
                     graphUtility.readFile(fileChooser.getSelectedFile());
                     btnNext.setEnabled(true);
-                    btnGenerate.setEnabled(true);
                     btnClear.setEnabled(true);
                     lblVertices.setText("V={" + graphUtility.getGraph().getNodes().toString() + "}");
                     lblEdges.setText("E={" + graphUtility.getGraph().getEdges().toString() + "}");
+                    JOptionPane.showInternalMessageDialog(null,
+                            "Successfully Imported Contents of file",
+                            "Import Status", JOptionPane.INFORMATION_MESSAGE);
+
+                    Path filePath = Paths.get(fileChooser.getSelectedFile().toURI());
+                    String fileContents = new String(Files.readAllBytes(filePath));
+
+                    txtAreaMatrix.setText(graphUtility.getGraph().toString() + "\n\n" +
+                            "Adjacency Matrix:" + "\n" + fileContents);
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
         });
 
-        btnGenerate.addActionListener(e -> {
-
-        });
-
         btnClear.addActionListener(e -> {
             graphUtility.setGraph(null);
             btnNext.setEnabled(false);
-            btnGenerate.setEnabled(false);
             btnClear.setEnabled(false);
+            txtAreaMatrix.setText("Import file first.");
         });
 
         btnNext.addActionListener(e -> {
             cardLayout.show(panelCard,"visualize");
+            btnImport.setForeground(resources.white);
             btnColorChangeSidebar(btnVisualize, btnHome, btnTraverse, btnPath, btnImport);
         });
 
@@ -287,6 +293,7 @@ public class GraphGUI extends JFrame {
 
     private JPanel populatePanelVisualize() {
         JPanel panelContainer = new JPanel();
+        panelContainer.setBorder(resources.normalPadding);
         panelContainer.setPreferredSize(new Dimension(700,500));
         panelContainer.setLayout(new BorderLayout());
 
@@ -319,6 +326,7 @@ public class GraphGUI extends JFrame {
 
     private JPanel populatePanelTraverse() {
         JPanel panelContainer = new JPanel();
+        panelContainer.setBorder(resources.normalPadding);
         panelContainer.setLayout(new BorderLayout());
 
         // Input Panel
@@ -380,8 +388,12 @@ public class GraphGUI extends JFrame {
 
         // Output Panel
         JPanel panelOutput = new JPanel();
-        panelOutput.setPreferredSize(new Dimension(700,380));
+        panelOutput.setPreferredSize(new Dimension(700,300));
         panelContainer.add(panelOutput, BorderLayout.SOUTH);
+
+        // ! Output Panel Components
+        JTextArea txtAreaOutput = createTextAreaOutput();
+        panelOutput.add(txtAreaOutput);
 
         panelContainer.revalidate();
         panelContainer.repaint();
@@ -390,6 +402,7 @@ public class GraphGUI extends JFrame {
 
     private JPanel populatePanelPath() {
         JPanel panelContainer = new JPanel();
+        panelContainer.setBorder(resources.normalPadding);
         panelContainer.setLayout(new BorderLayout());
 
         // Input Panel
@@ -452,9 +465,11 @@ public class GraphGUI extends JFrame {
 
         // Output Panel
         JPanel panelOutput = new JPanel();
-        panelOutput.setPreferredSize(new Dimension(700,380));
+        panelOutput.setPreferredSize(new Dimension(700,300));
         panelContainer.add(panelOutput, BorderLayout.SOUTH);
 
+        JTextArea txtAreaOutput = createTextAreaOutput();
+        panelOutput.add(txtAreaOutput);
 
         panelContainer.revalidate();
         panelContainer.repaint();
@@ -508,5 +523,13 @@ public class GraphGUI extends JFrame {
         label.setForeground(color);
         label.setHorizontalAlignment(SwingConstants.LEFT);
         return label;
+    }
+
+    private JTextArea createTextAreaOutput() {
+        JTextArea textArea = new JTextArea();
+        textArea.setColumns(50);
+        textArea.setRows(12);
+        textArea.setEditable(false);
+        return textArea;
     }
 } // end of GraphGUI class
