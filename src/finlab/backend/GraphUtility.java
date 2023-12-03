@@ -73,7 +73,6 @@ public class GraphUtility {
             vertices.add(vertex);
             graph.addVertex(vertex);
         }
-
         graph.setNodes(vertices);
     }
 
