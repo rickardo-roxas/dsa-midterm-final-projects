@@ -215,13 +215,15 @@ public class GraphGUI extends JFrame {
         panelImport.add(btnGenerate);
 
         JPanel panelMatrix = new JPanel();
-        panelMatrix.setPreferredSize(new Dimension(700,300));
+        panelMatrix.setLayout(new BorderLayout());
+        panelMatrix.setPreferredSize(new Dimension(700,900));
 
         // Matrix Panel Components
         JLabel lblHeader = createLabel("Adjacency Matrix", resources.richBlack);
         lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
         lblHeader.setVerticalAlignment(SwingConstants.TOP);
-        panelMatrix.add(lblHeader);
+        panelMatrix.add(lblHeader, BorderLayout.NORTH);
+
 
         // Matrix Panel Scroll Pane
         JScrollPane scrollPane = new JScrollPane(panelMatrix);
