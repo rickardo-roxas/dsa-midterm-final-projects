@@ -93,24 +93,30 @@ public class GraphUtility {
         visited.add(start);
         queue.add(start);
 
-        while (queue.size() != 0){
+        while (!queue.isEmpty()) {
             Vertex curr = queue.poll();
 
-            List<Edge> neighbors = curr.getNeighbors();
 
-            for (Edge edge : neighbors){
-                Vertex neighbor = edge.getEnd();
+            List<Edge> edges = graph.getEdges();
 
-                if (!visited.contains(neighbor) && !queue.contains(neighbor)){
-                    queue.add(neighbor);
-                    visited.add(neighbor);
+            for (Edge edge : edges){
+                if (edge.getStart().equals(curr)){
+                    Vertex neighbor = edge.getEnd();
+
+                    if (!visited.contains(neighbor) && !queue.contains(neighbor)){
+                        queue.add(neighbor);
+                        visited.add(neighbor);
+                    }
                 }
-            }
-        }
 
+            }
+
+        }
 
         return visited;
     }
+
+
 
     public void dijkstraShortestPath(Vertex start, Vertex end) {
 

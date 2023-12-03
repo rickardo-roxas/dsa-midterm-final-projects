@@ -7,13 +7,11 @@ public class Test {
     private static final GraphUtility graphUtility = new GraphUtility();
     public static void main(String[] args) {
         try {
-            graphUtility.readFile(new File("graphs/unweighted-undirected-matrix"));
+            graphUtility.readFile(new File("graphs/undirected-test"));
             System.out.println("V={" + graphUtility.getGraph().getNodes().toString() + "}");
             System.out.println("E={" + graphUtility.getGraph().getEdges().toString() + "}");
 
-            System.out.println(graphUtility.getGraph().getNodes().get(0));
-
-            System.out.println(graphUtility.getGraph().getNodes());
+            System.out.println(graphUtility.breadthFirstSearch(graphUtility.getGraph().getNodes().get(1)));
         } catch (Exception e) {
             e.printStackTrace();
         }

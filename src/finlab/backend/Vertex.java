@@ -41,4 +41,16 @@ public class Vertex {
     public String toString() {
         return label;
     }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Vertex otherVertex = (Vertex) obj;
+        return label.equals(otherVertex.label);
+    }
+
 }
