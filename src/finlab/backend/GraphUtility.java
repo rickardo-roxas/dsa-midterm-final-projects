@@ -77,15 +77,15 @@ public class GraphUtility {
     }
 
 
-    public void depthFirstSearch(Vertex start, Vertex end) {
+    public void depthFirstSearch(Vertex start) {
         // TODO: write corresponding code here
     }
 
-    public void breadthFirstSearch(Vertex start, Vertex end) {
+    public void breadthFirstSearch(Vertex start) {
         // TODO: write corresponding code here
     }
 
-    public void dijkstraShortestPath(Vertex start) {
+    public void dijkstraShortestPath(Vertex start, Vertex end) {
 
     }
 }
