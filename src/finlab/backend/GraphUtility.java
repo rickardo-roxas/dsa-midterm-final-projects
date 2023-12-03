@@ -53,6 +53,18 @@ public class GraphUtility {
         }
     }
 
+    public int[][] getAdjacencyMatrix() {
+        int numVertices = graph.getCount();
+        int[][] adjacencyMatrix = new int[numVertices][numVertices];
+        for (Edge edge : graph.getEdges()) {
+            int startIndex = graph.getNodes().indexOf(edge.getStart());
+            int endIndex = graph.getNodes().indexOf(edge.getEnd());
+            adjacencyMatrix[startIndex][endIndex] = edge.getWeight() > 0 ? (int) edge.getWeight() : 1;
+        }
+        return adjacencyMatrix;
+    }
+
+
     /**
      * TODO: Documentation
      * @param verticesCount given number of nodes

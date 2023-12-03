@@ -1,5 +1,6 @@
 package finlab.frontend;
 
+import finlab.backend.Graph;
 import finlab.backend.GraphUtility;
 import javax.swing.*;
 import java.awt.*;
@@ -258,7 +259,6 @@ public class GraphGUI extends JFrame {
                     btnClear.setEnabled(true);
                     lblVertices.setText("V={" + graphUtility.getGraph().getNodes().toString() + "}");
                     lblEdges.setText("E={" + graphUtility.getGraph().getEdges().toString() + "}");
-
                     JOptionPane.showInternalMessageDialog(null,"Succesfully Imported Contents of file",
                             "Import Status", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -458,6 +458,25 @@ public class GraphGUI extends JFrame {
         panelOutput.setPreferredSize(new Dimension(700,380));
         panelContainer.add(panelOutput, BorderLayout.SOUTH);
 
+        panelContainer.revalidate();
+        panelContainer.repaint();
+        return panelContainer;
+    }
+
+    private JPanel generateAdjacencyMatrix(Graph graph) {
+        JPanel panelContainer = new JPanel();
+
+        int[][] adjacencyMatrix = graphUtility.getAdjacencyMatrix();
+        int numRows = adjacencyMatrix.length;
+        int numCols = numRows > 0 ? adjacencyMatrix[0].length : 0;
+
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                JLabel label = new JLabel(String.valueOf(adjacencyMatrix[i][j]));
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                panelContainer.add(label);
+            }
+        }
 
         panelContainer.revalidate();
         panelContainer.repaint();
