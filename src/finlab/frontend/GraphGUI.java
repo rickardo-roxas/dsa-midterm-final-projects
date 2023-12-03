@@ -258,6 +258,9 @@ public class GraphGUI extends JFrame {
                     btnClear.setEnabled(true);
                     lblVertices.setText("V={" + graphUtility.getGraph().getNodes().toString() + "}");
                     lblEdges.setText("E={" + graphUtility.getGraph().getEdges().toString() + "}");
+
+                    JOptionPane.showInternalMessageDialog(null,"Succesfully Imported Contents of file",
+                            "Import Status", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();
