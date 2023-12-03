@@ -1,13 +1,16 @@
 package finlab.backend;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Graph {
     private List<Vertex> nodes;
+    private List<Edge> edges;
     private int count;
 
     public Graph() {
-        nodes = null;
+        nodes = new ArrayList<>();
+        edges = new ArrayList<>();
         count = 0;
     }
 
@@ -17,12 +20,22 @@ public class Graph {
     }
 
     public void addVertex(Vertex vertex) {
-        this.nodes.add(vertex);
-        this.count++;
+        if (!nodes.contains(vertex)) {
+            this.nodes.add(vertex);
+            this.count++;
+        }
+    }
+
+    public void addEdge(Vertex start, Vertex end) {
+        edges.add(new Edge(start, end));
     }
 
     public void setNodes(List<Vertex> nodes) {
         this.nodes = nodes;
+    }
+
+    public void setEdges(List<Edge> edges) {
+        this.edges = edges;
     }
 
     public void setCount(int count) {
@@ -33,15 +46,28 @@ public class Graph {
         return nodes;
     }
 
+    public List<Edge> getEdges() {
+        return edges;
+    }
+
     public int getCount() {
         return count;
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
+
+        sb.append("V={");
         for (Vertex vertex : this.nodes) {
-            sb.append(vertex + "\n");
+            sb.append(vertex + ",");
         }
-        return String.valueOf(sb);
+        sb.append("}\n");
+
+        sb.append("E={");
+        for (Edge edge : this.edges) {
+            sb.append(edge + ",");
+        }
+        sb.append("}");
+        return sb.toString();
     }
 }
