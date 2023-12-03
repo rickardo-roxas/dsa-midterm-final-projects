@@ -4,6 +4,9 @@ import finlab.backend.Graph;
 import finlab.backend.GraphUtility;
 import javax.swing.*;
 import java.awt.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class GraphGUI extends JFrame {
     private final Resources resources = new Resources();
@@ -211,20 +214,16 @@ public class GraphGUI extends JFrame {
         JButton btnImport = createButtonHome("Import File");
         panelImport.add(btnImport);
 
-        JButton btnGenerate = createButtonHome("Generate Matrix");
-        btnGenerate.setEnabled(false);
-        panelImport.add(btnGenerate);
-
         JPanel panelMatrix = new JPanel();
         panelMatrix.setLayout(new BorderLayout());
         panelMatrix.setPreferredSize(new Dimension(700,900));
 
         // Matrix Panel Components
-        JLabel lblHeader = createLabel("Adjacency Matrix", resources.richBlack);
-        lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
-        lblHeader.setVerticalAlignment(SwingConstants.TOP);
-        panelMatrix.add(lblHeader, BorderLayout.NORTH);
 
+        JTextArea txtAreaMatrix = new JTextArea();
+        txtAreaMatrix.setText("Import file first.");
+        txtAreaMatrix.setColumns(50);
+        panelMatrix.add(txtAreaMatrix, BorderLayout.CENTER);
 
         // Matrix Panel Scroll Pane
         JScrollPane scrollPane = new JScrollPane(panelMatrix);
@@ -255,27 +254,29 @@ public class GraphGUI extends JFrame {
                 if (fileChooser.getSelectedFile() != null) {
                     graphUtility.readFile(fileChooser.getSelectedFile());
                     btnNext.setEnabled(true);
-                    btnGenerate.setEnabled(true);
                     btnClear.setEnabled(true);
                     lblVertices.setText("V={" + graphUtility.getGraph().getNodes().toString() + "}");
                     lblEdges.setText("E={" + graphUtility.getGraph().getEdges().toString() + "}");
-                    JOptionPane.showInternalMessageDialog(null,"Succesfully Imported Contents of file",
+                    JOptionPane.showInternalMessageDialog(null,
+                            "Successfully Imported Contents of file",
                             "Import Status", JOptionPane.INFORMATION_MESSAGE);
+
+                    Path filePath = Paths.get(fileChooser.getSelectedFile().toURI());
+                    String fileContents = new String(Files.readAllBytes(filePath));
+
+                    txtAreaMatrix.setText(graphUtility.getGraph().toString() + "\n\n" +
+                            "Adjacency Matrix:" + "\n" + fileContents);
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
         });
 
-        btnGenerate.addActionListener(e -> {
-
-        });
-
         btnClear.addActionListener(e -> {
             graphUtility.setGraph(null);
             btnNext.setEnabled(false);
-            btnGenerate.setEnabled(false);
             btnClear.setEnabled(false);
+            txtAreaMatrix.setText("Import file first.");
         });
 
         btnNext.addActionListener(e -> {
@@ -463,26 +464,6 @@ public class GraphGUI extends JFrame {
         return panelContainer;
     }
 
-    private JPanel generateAdjacencyMatrix(Graph graph) {
-        JPanel panelContainer = new JPanel();
-
-        int[][] adjacencyMatrix = graphUtility.getAdjacencyMatrix();
-        int numRows = adjacencyMatrix.length;
-        int numCols = numRows > 0 ? adjacencyMatrix[0].length : 0;
-
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                JLabel label = new JLabel(String.valueOf(adjacencyMatrix[i][j]));
-                label.setHorizontalAlignment(SwingConstants.CENTER);
-                panelContainer.add(label);
-            }
-        }
-
-        panelContainer.revalidate();
-        panelContainer.repaint();
-        return panelContainer;
-    }
-
     private JButton createButtonSidebar(String text) {
         JButton button = new JButton(text);
         button.setHorizontalAlignment(SwingConstants.LEFT);
@@ -531,4 +512,6 @@ public class GraphGUI extends JFrame {
         label.setHorizontalAlignment(SwingConstants.LEFT);
         return label;
     }
+
+    // private void
 } // end of GraphGUI class
