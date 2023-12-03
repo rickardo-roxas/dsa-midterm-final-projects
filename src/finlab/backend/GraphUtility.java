@@ -18,6 +18,10 @@ public class GraphUtility {
         return graph;
     }
 
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
+
     /**
      * TODO: Documentation
      * @param file given file path

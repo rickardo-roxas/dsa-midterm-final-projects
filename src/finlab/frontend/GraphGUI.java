@@ -203,28 +203,57 @@ public class GraphGUI extends JFrame {
 
         JPanel panelImport = new JPanel();
         panelImport.setLayout(new FlowLayout());
-        panelImport.setPreferredSize(new Dimension(700, 100));
+        panelImport.setPreferredSize(new Dimension(700, 80));
         panelContainer.add(panelImport, BorderLayout.NORTH);
 
-        JButton buttonImport = createButtonHome("Import File");
-        panelImport.add(buttonImport);
+        // Import Panel Components
+        JButton btnImport = createButtonHome("Import File");
+        panelImport.add(btnImport);
 
-        JButton buttonNext = createButtonHome("Next");
-        buttonNext.setEnabled(false);
-        panelImport.add(buttonNext);
+        JButton btnGenerate = createButtonHome("Generate Matrix");
+        btnGenerate.setEnabled(false);
+        panelImport.add(btnGenerate);
 
         JPanel panelMatrix = new JPanel();
-        panelMatrix.setPreferredSize(new Dimension(700,200));
-        panelHome.add(panelMatrix, BorderLayout.CENTER);
+        panelMatrix.setPreferredSize(new Dimension(700,300));
 
-        buttonImport.addActionListener(e -> {
+        // Matrix Panel Components
+        JLabel lblHeader = createLabel("Adjacency Matrix", resources.richBlack);
+        lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
+        lblHeader.setVerticalAlignment(SwingConstants.TOP);
+        panelMatrix.add(lblHeader);
+
+        // Matrix Panel Scroll Pane
+        JScrollPane scrollPane = new JScrollPane(panelMatrix);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        panelContainer.add(scrollPane, BorderLayout.CENTER);
+
+        JPanel panelButton = new JPanel();
+        panelButton.setPreferredSize(new Dimension(700,100));
+        panelButton.setLayout(new FlowLayout());
+        panelContainer.add(panelButton, BorderLayout.SOUTH);
+
+        // Button Panel Components
+        JButton btnClear = createButtonHome("Clear");
+        btnClear.setEnabled(false);
+        panelButton.add(btnClear);
+
+        JButton btnNext = createButtonHome("Next");
+        btnNext.setEnabled(false);
+        panelButton.add(btnNext);
+
+        // Action Listeners
+        btnImport.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser("graphs");
             fileChooser.showOpenDialog(null);
 
             try {
                 if (fileChooser.getSelectedFile() != null) {
                     graphUtility.readFile(fileChooser.getSelectedFile());
-                    buttonNext.setEnabled(true);
+                    btnNext.setEnabled(true);
+                    btnGenerate.setEnabled(true);
+                    btnClear.setEnabled(true);
                     lblVertices.setText("V={" + graphUtility.getGraph().getNodes().toString() + "}");
                     lblEdges.setText("E={" + graphUtility.getGraph().getEdges().toString() + "}");
                 }
@@ -233,7 +262,18 @@ public class GraphGUI extends JFrame {
             }
         });
 
-        buttonNext.addActionListener(e -> {
+        btnGenerate.addActionListener(e -> {
+
+        });
+
+        btnClear.addActionListener(e -> {
+            graphUtility.setGraph(null);
+            btnNext.setEnabled(false);
+            btnGenerate.setEnabled(false);
+            btnClear.setEnabled(false);
+        });
+
+        btnNext.addActionListener(e -> {
             cardLayout.show(panelCard,"visualize");
             btnColorChangeSidebar(btnVisualize, btnHome, btnTraverse, btnPath, btnImport);
         });
