@@ -79,29 +79,35 @@ public class GraphUtility {
 
     public ArrayList<Vertex> depthFirstSearch(Vertex start) {
         ArrayList<Vertex> visited = new ArrayList<>();
+        Set<Vertex> stackSet = new HashSet<>();
         Stack<Vertex> stack = new Stack<>();
 
         stack.push(start);
 
         while (!stack.isEmpty()) {
-            Vertex curr = stack.pop();
+            Vertex current = stack.pop();
 
-            List<Edge> edges = graph.getEdges();
+            if (!stackSet.contains(current)) {
+                visited.add(current);
+                stackSet.add(current);
 
-            for (Edge edge : edges){
-                if (edge.getStart().equals(curr)){
-                    Vertex neighbor = edge.getEnd();
+                List<Edge> edges = graph.getEdges();
 
-                    if (!visited.contains(neighbor) && !stack.contains(neighbor)){
-                        stack.push(neighbor);
-                        visited.add(neighbor);
+                for (Edge edge : edges) {
+                    if (edge.getStart().equals(current)) {
+                        Vertex neighbor = edge.getEnd();
+
+                        if (!stackSet.contains(neighbor) && !visited.contains(neighbor)) {
+                            stack.push(neighbor);
+                        }
                     }
                 }
-
             }
         }
+
         return visited;
     }
+
 
     /**
      * The following code returns the Breadth-First Search traversal (ArrayList) of a graph given a starting node.
