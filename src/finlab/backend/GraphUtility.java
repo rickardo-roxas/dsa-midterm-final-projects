@@ -5,9 +5,11 @@ import java.lang.*;
 import java.util.*;
 
 /**
- * TODO: Documentation
+ * GraphUtility class
  */
 public class GraphUtility {
+
+    // Class variable
     private Graph graph;
 
     public GraphUtility() {
