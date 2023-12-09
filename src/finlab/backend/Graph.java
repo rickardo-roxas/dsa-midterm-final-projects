@@ -92,13 +92,17 @@ public class Graph {
     }
 
     /**
-     * Getter for count"
+     * Getter for count
      * @return
      */
     public int getCount() {
         return count;
     }
 
+    /**
+     * toString method
+     * @return string representation
+     */
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
