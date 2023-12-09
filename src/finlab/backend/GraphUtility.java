@@ -19,10 +19,18 @@ public class GraphUtility {
         graph = null;
     }
 
+    /**
+     * Getter for graph
+     * @return graph
+     */
     public Graph getGraph() {
         return graph;
     }
 
+    /**
+     * Setter for graph
+     * @param graph
+     */
     public void setGraph(Graph graph) {
         this.graph = graph;
     }
