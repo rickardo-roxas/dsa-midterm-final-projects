@@ -118,7 +118,7 @@ public class GraphUtility {
 
 
 
-    public void dijkstraShortestPath(Vertex start, Vertex end) {
+    public ArrayList<Vertex> dijkstraShortestPath(Vertex start, Vertex end) {
 
     }
 }
