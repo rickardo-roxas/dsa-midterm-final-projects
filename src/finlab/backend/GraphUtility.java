@@ -12,6 +12,9 @@ public class GraphUtility {
     // Class variable
     private Graph graph;
 
+    /**
+     * Default constructor for class
+     */
     public GraphUtility() {
         graph = null;
     }
