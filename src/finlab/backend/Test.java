@@ -13,6 +13,9 @@ public class Test {
 
             System.out.println(graphUtility.breadthFirstSearch(graphUtility.getGraph().getNodes().get(1)));
 
+            System.out.print("Depth-First Search: ");
+            graphUtility.depthFirstSearch(graphUtility.getGraph().getNodes().get(1));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
