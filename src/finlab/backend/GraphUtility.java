@@ -84,20 +84,22 @@ public class GraphUtility {
         stack.push(start);
 
         while (!stack.isEmpty()) {
-            Vertex current = stack.pop();
+            Vertex curr = stack.pop();
 
-            if (!visited.contains(current)) {
-                visited.add(current);
+            List<Edge> edges = graph.getEdges();
 
-                for (Edge edge : current.getNeighbors()) {
+            for (Edge edge : edges){
+                if (edge.getStart().equals(curr)){
                     Vertex neighbor = edge.getEnd();
-                    if (!visited.contains(neighbor)) {
+
+                    if (!visited.contains(neighbor) && !stack.contains(neighbor)){
                         stack.push(neighbor);
+                        visited.add(neighbor);
                     }
                 }
+
             }
         }
-
         return visited;
     }
 
