@@ -78,7 +78,26 @@ public class GraphUtility {
     }
 
     public void depthFirstSearch(Vertex start) {
-        // TODO: write corresponding code here
+        Set<Vertex> visited = new HashSet<>();
+        Stack<Vertex> stack = new Stack<>();
+
+        stack.push(start);
+
+        while (!stack.isEmpty()) {
+            Vertex current = stack.pop();
+
+            if (!visited.contains(current)) {
+                System.out.print(current + " ");
+                visited.add(current);
+
+                for (Edge edge : current.getNeighbors()) {
+                    Vertex neighbor = edge.getEnd();
+                    if (!visited.contains(neighbor)) {
+                        stack.push(neighbor);
+                    }
+                }
+            }
+        }
     }
 
     /**

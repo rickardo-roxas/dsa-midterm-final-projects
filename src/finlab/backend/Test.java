@@ -12,6 +12,7 @@ public class Test {
             System.out.println("E={" + graphUtility.getGraph().getEdges().toString() + "}");
 
             System.out.println(graphUtility.breadthFirstSearch(graphUtility.getGraph().getNodes().get(1)));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
