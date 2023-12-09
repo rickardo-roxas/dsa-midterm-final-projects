@@ -91,6 +91,7 @@ public class GraphUtility {
                 visited.add(current);
                 stackSet.add(current);
 
+                // Get the edges from the graph
                 List<Edge> edges = graph.getEdges();
 
                 for (Edge edge : edges) {
@@ -103,10 +104,14 @@ public class GraphUtility {
                     }
                 }
             }
+            if (!stack.isEmpty()) {
+                stack.push(current);
+            }
         }
 
         return visited;
     }
+
 
 
     /**
