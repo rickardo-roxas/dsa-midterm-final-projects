@@ -90,9 +90,25 @@ public class GraphUtility {
         }
     }
 
-    public void depthFirstSearch(Vertex start) {
-        // TODO: write corresponding code here
+    public ArrayList<Vertex> depthFirstSearch(Vertex start, ArrayList<Vertex> visited) {
+
+        visited.add(start);
+
+        for (Edge edge : graph.getEdges()) {
+            if (edge.getStart().equals(start)) {
+                Vertex neighbor = edge.getEnd();
+
+                if (!visited.contains(neighbor)) {
+                    depthFirstSearch(neighbor, visited);
+                }
+            }
+        }
+
+        return visited;
     }
+
+
+
 
     /**
      * The following code returns the Breadth-First Search traversal (ArrayList) of a graph given a starting node.
