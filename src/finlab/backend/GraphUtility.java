@@ -77,25 +77,24 @@ public class GraphUtility {
         }
     }
 
-    public ArrayList<Vertex> depthFirstSearch(Vertex start, int depthLimit) {
-        Set<Vertex> visited = new HashSet<>();
+    public void depthFirstSearch(Vertex start, List<Vertex> visited) {
+
+        if (visited == null) {
+            visited = new ArrayList<>();
+        }
 
         visited.add(start);
 
-        List<Edge> edges = graph.getEdges();
-        for (Edge edge : edges) {
+        for (Edge edge : graph.getEdges()) {
             if (edge.getStart().equals(start)) {
                 Vertex neighbor = edge.getEnd();
-                if (!visited.contains(neighbor) && depthLimit > 0) {
-                    visited.add(neighbor);
-                    depthFirstSearch(neighbor, depthLimit-1);
+                if (!visited.contains(neighbor)) {
+                    depthFirstSearch(neighbor, visited);
                 }
             }
         }
-
-        ArrayList<Vertex> visitedList = new ArrayList<>(visited);
-        return visitedList;
     }
+
 
 
 
