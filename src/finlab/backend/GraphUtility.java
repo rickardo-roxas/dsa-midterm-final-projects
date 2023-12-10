@@ -67,6 +67,7 @@ public class GraphUtility {
     }
 
 
+
     /**
      * TODO: Documentation
      * @param verticesCount given number of nodes
@@ -130,46 +131,85 @@ public class GraphUtility {
     }
 
 
+    static int totalNumberOfVertex = 9;
 
-    public void dijkstraShortestPath(Vertex start, Vertex end) {
-        PriorityQueue<Vertex> priorityQueue = new PriorityQueue<>();
-        HashSet<Vertex> visited = new HashSet<>();
+    int minimumDistance(int[] distance, Boolean[] shortestPathSet) {
+        int maxValue = Integer.MAX_VALUE;
+        int minIndex = -1;
 
-        List<Vertex> vertices = graph.getNodes();  // Get the vertices
-        List<Edge> edges = graph.getEdges();
-        int[] distance = new int[graph.getCount()]; // Will hold all the distances of the vertices
-        Arrays.fill(distance, Integer.MAX_VALUE);  // Make the distances infinity
+        for (int x = 0; x < totalNumberOfVertex; x++) {
 
-
-        // Set the weight of start node equal to 0 to signify it is the start ndoe
-        for (Edge edge : edges) {
-            if (edge.getStart().equals(start)) {
-                edge.setWeight(0);
+            // If path has not been finalized set the minIndex to x
+            if (!shortestPathSet[x] && distance[x] <= maxValue) {
+                maxValue = distance[x];
+                minIndex = x;
             }
         }
+        return minIndex;
 
-        priorityQueue.add(start);  //Add start to priority queue
+    }
 
-        distance[vertices.indexOf(start)] = 0;
+    void dijkstra(int[][] graph, int startVertex) {
 
-        while (visited.size() != priorityQueue.size()) {
-            Vertex workingNode = priorityQueue.remove();
-            visited.add(workingNode);
+        int[] distance = new int[totalNumberOfVertex];
 
-            // Get number of nodes adjacent to the working node
-            int numberOfAdjacentNodes = 0;
-            for (Edge edge : edges)
-                if (edge.getStart().equals(start))
-                    numberOfAdjacentNodes+=1;
+        // Will be setting this to true while we finalize the shortest path to each node
+        Boolean[] shortestPathSet = new Boolean[totalNumberOfVertex];
 
-            for (int x = 0 ; x < numberOfAdjacentNodes; x++ ) {
 
-            }
-
+        // Set all distances to infinity
+        // Set all the shortestPathSets to false
+        for (int x = 0; x < totalNumberOfVertex; x++) {
+            distance[x] = Integer.MAX_VALUE;
+            shortestPathSet[x] = false;
         }
 
+        // Set the distance from the source vertex to itself to 0
+        distance[startVertex] = 0;
 
 
+        for (int x = 0; x < totalNumberOfVertex - 1; x++)  {
+
+            // Call minimumDistance to get the shortest path set for for the vertex
+            int minDistance = minimumDistance(distance, shortestPathSet);
+
+            // Set shortestPathSet to true
+            shortestPathSet[minDistance] = true;
+
+            //Update distance of neighbor vertices
+            for (int vertex = 0; vertex < totalNumberOfVertex; vertex++)
+
+                if (!shortestPathSet[vertex] && //Vertex has not been finalized in shortestPathSet
+                        graph[minDistance][vertex] != -1 &&  // An edge exists between the two values
+                        distance[minDistance] != Integer.MAX_VALUE && //the distance not equal infinity
+                        distance[minDistance] + graph[minDistance][vertex] < distance[vertex]) { // new path distance less than old path distance
+                    distance[vertex] = distance[minDistance] + graph[minDistance][vertex]; //set new distance
+                }
+        }
+        printShortestPath(distance, totalNumberOfVertex);
+    }
+
+    void printShortestPath(int distance[], int n) {
+        System.out.println("The shortest Distance from source 0th node to all other nodes are: ");
+        for (int j = 0; j < n; j++)
+            System.out.println("To " + j + " the shortest distance is: " + distance[j]);
+    }
+
+    // main method
+    public static void main(String args[]) {
+        int[][] graph = new int[][] {
+                { -1, 3, -1, -1, -1, -1, -1, 7, -1 },
+                { 3, -1, 7, -1, -1, -1, -1, 10, 4 },
+                { -1, 7, -1, 6, -1, 2, -1, -1, 1 },
+                { -1, -1, 6, -1, 8, 13, -1, -1, 3 },
+                { -1, -1, -1, 8, -1, 9, -1, -1, -1 },
+                { -1, -1, 2, 13, 9, -1, 4, -1, 5 },
+                { -1, -1, -1, -1, -1, 4, -1, 2, 5 },
+                { 7, 10, -1, -1, -1, -1, 2, -1, 6 },
+                { -1, 4, 1, 3, -1, 5, 5, 6, -1 } };
+
+        GraphUtility obj = new GraphUtility();
+        obj.dijkstra(graph, 0);
     }
 
 }

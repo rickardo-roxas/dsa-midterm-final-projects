@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Vertex class
  */
-public class Vertex {
+public class Vertex{
     //Class variables
     private String label;
     private List<Edge> neighbors;
@@ -93,5 +93,4 @@ public class Vertex {
         Vertex otherVertex = (Vertex) obj;
         return label.equals(otherVertex.label);
     }
-
 }

@@ -8,7 +8,7 @@ public class Edge {
     // Class Variables
     private Vertex start;
     private  Vertex end;
-    private double weight;
+    private int weight;
     private int id;
 
     /**
@@ -17,7 +17,7 @@ public class Edge {
     public Edge() {
         start = null;
         end = null;
-        weight = 0.0;
+        weight = 0;
         id = 0;
     }
 
@@ -29,7 +29,7 @@ public class Edge {
     public Edge(Vertex start, Vertex end) {
         this.start = start;
         this.end = end;
-        this.weight = 0.0;
+        this.weight = 0;
         id = 0;
     }
 
@@ -39,7 +39,7 @@ public class Edge {
      * @param end
      * @param weight
      */
-    public Edge(Vertex start, Vertex end, double weight) {
+    public Edge(Vertex start, Vertex end, int weight) {
         this.start = start;
         this.end = end;
         this.weight = weight;
@@ -65,7 +65,7 @@ public class Edge {
      * Setter for weight of edge
      * @param weight : double
      */
-    public void setWeight(double weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 
