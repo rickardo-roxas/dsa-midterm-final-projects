@@ -131,85 +131,71 @@ public class GraphUtility {
     }
 
 
-    static int totalNumberOfVertex = 9;
+    public static void main(String[] args) {
+        int adjMat [] [] = {
+                {0, 2, 0, 4, 0, 0},
+                {0, 0, 3, 2, 0, 0},
+                {2, 0, 0, 0, 0, 4},
+                {0, 0, 0, 0, 2, 0},
+                {0, 0, 0, 0, 0, 1},
+                {0, 0, 0, 0, 0, 0}};
 
-    int minimumDistance(int[] distance, Boolean[] shortestPathSet) {
-        int maxValue = Integer.MAX_VALUE;
-        int minIndex = -1;
+        //creating a distance array to keep a note of distance of vertex from source
+        int [] distance = new int[adjMat.length];
 
-        for (int x = 0; x < totalNumberOfVertex; x++) {
+        //taking source vertex to be 0
+        int source = 0;
 
-            // If path has not been finalized set the minIndex to x
-            if (!shortestPathSet[x] && distance[x] <= maxValue) {
-                maxValue = distance[x];
-                minIndex = x;
+        //creating a visited array to keep a count of visited vertices.
+        boolean [] visited = new boolean[adjMat.length];
+
+        //marking distance of source vertex
+        distance[source] = 0;
+
+        // filling up other distance in array "distance" as infinity or the max value
+        for (int i = 0; i < adjMat.length; i++) {
+            if( i == source) continue;
+            distance[i] = Integer.MAX_VALUE;
+        }
+
+        //finding the vertex that is most close to current node or source
+        for(int i = 0; i < adjMat.length; i++) {
+            int minDistVertex = findMinDistVertex(distance, visited);
+
+            //marking the vertex that is most close to source/current vertex as true
+            visited[minDistVertex] = true;
+
+            //exploring the neighbors of each vertex and updating distance array with new distance
+            for(int j = 0; j < adjMat.length; j++) {
+                if(adjMat[minDistVertex][j] != 0 && visited[j] == false && distance[minDistVertex] != Integer.MAX_VALUE) {
+                    int newDist = distance[minDistVertex] + adjMat[minDistVertex][j];
+                    if(newDist < distance[j]) {
+                        distance[j] = newDist;
+                    }
+                }
             }
         }
-        return minIndex;
 
-    }
-
-    void dijkstra(int[][] graph, int startVertex) {
-
-        int[] distance = new int[totalNumberOfVertex];
-
-        // Will be setting this to true while we finalize the shortest path to each node
-        Boolean[] shortestPathSet = new Boolean[totalNumberOfVertex];
-
-
-        // Set all distances to infinity
-        // Set all the shortestPathSets to false
-        for (int x = 0; x < totalNumberOfVertex; x++) {
-            distance[x] = Integer.MAX_VALUE;
-            shortestPathSet[x] = false;
+        for(int i = 0; i < adjMat.length; i++) {
+            System.out.println("Vertex : " + i + " & Distance from Source : " +distance[i]);
         }
 
-        // Set the distance from the source vertex to itself to 0
-        distance[startVertex] = 0;
-
-
-        for (int x = 0; x < totalNumberOfVertex - 1; x++)  {
-
-            // Call minimumDistance to get the shortest path set for for the vertex
-            int minDistance = minimumDistance(distance, shortestPathSet);
-
-            // Set shortestPathSet to true
-            shortestPathSet[minDistance] = true;
-
-            //Update distance of neighbor vertices
-            for (int vertex = 0; vertex < totalNumberOfVertex; vertex++)
-
-                if (!shortestPathSet[vertex] && //Vertex has not been finalized in shortestPathSet
-                        graph[minDistance][vertex] != -1 &&  // An edge exists between the two values
-                        distance[minDistance] != Integer.MAX_VALUE && //the distance not equal infinity
-                        distance[minDistance] + graph[minDistance][vertex] < distance[vertex]) { // new path distance less than old path distance
-                    distance[vertex] = distance[minDistance] + graph[minDistance][vertex]; //set new distance
-                }
+        for (int distance1 : distance) {
+            System.out.println(distance1);
         }
-        printShortestPath(distance, totalNumberOfVertex);
     }
 
-    void printShortestPath(int distance[], int n) {
-        System.out.println("The shortest Distance from source 0th node to all other nodes are: ");
-        for (int j = 0; j < n; j++)
-            System.out.println("To " + j + " the shortest distance is: " + distance[j]);
-    }
+    public static int findMinDistVertex(int[] distance, boolean [] visited) {
 
-    // main method
-    public static void main(String args[]) {
-        int[][] graph = new int[][] {
-                { -1, 3, -1, -1, -1, -1, -1, 7, -1 },
-                { 3, -1, 7, -1, -1, -1, -1, 10, 4 },
-                { -1, 7, -1, 6, -1, 2, -1, -1, 1 },
-                { -1, -1, 6, -1, 8, 13, -1, -1, 3 },
-                { -1, -1, -1, 8, -1, 9, -1, -1, -1 },
-                { -1, -1, 2, 13, 9, -1, 4, -1, 5 },
-                { -1, -1, -1, -1, -1, 4, -1, 2, 5 },
-                { 7, 10, -1, -1, -1, -1, 2, -1, 6 },
-                { -1, 4, 1, 3, -1, 5, 5, 6, -1 } };
+        int minVertex = -1;
 
-        GraphUtility obj = new GraphUtility();
-        obj.dijkstra(graph, 0);
+        //traversing through the distance array and finding the least distance vertex whose visited is also false
+        for(int i = 0; i < distance.length; i++) {
+            if(visited[i] == false && (minVertex == -1 || distance[i] < distance[minVertex])) {
+                minVertex = i;
+            }
+        }
+        return minVertex;
     }
 
 }
