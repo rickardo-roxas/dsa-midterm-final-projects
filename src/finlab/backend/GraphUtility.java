@@ -5,19 +5,32 @@ import java.lang.*;
 import java.util.*;
 
 /**
- * TODO: Documentation
+ * GraphUtility class
  */
 public class GraphUtility {
+
+    // Class variable
     private Graph graph;
 
+    /**
+     * Default constructor for class
+     */
     public GraphUtility() {
         graph = null;
     }
 
+    /**
+     * Getter for graph
+     * @return graph
+     */
     public Graph getGraph() {
         return graph;
     }
 
+    /**
+     * Setter for graph
+     * @param graph
+     */
     public void setGraph(Graph graph) {
         this.graph = graph;
     }
