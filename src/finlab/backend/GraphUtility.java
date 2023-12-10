@@ -77,22 +77,21 @@ public class GraphUtility {
         }
     }
 
-    public void depthFirstSearch(Vertex start, List<Vertex> visited) {
-
-        if (visited == null) {
-            visited = new ArrayList<>();
-        }
+    public ArrayList<Vertex> depthFirstSearch(Vertex start, ArrayList<Vertex> visited) {
 
         visited.add(start);
 
         for (Edge edge : graph.getEdges()) {
             if (edge.getStart().equals(start)) {
                 Vertex neighbor = edge.getEnd();
+
                 if (!visited.contains(neighbor)) {
                     depthFirstSearch(neighbor, visited);
                 }
             }
         }
+
+        return visited;
     }
 
 
