@@ -90,11 +90,8 @@ public class GraphUtility {
                 Vertex neighbor = edge.getEnd();
 
 
-                if (!visitedSet.contains(neighbor)) {
-
+                if (!visitedSet.contains(neighbor) && !visited.contains(neighbor)) {
                     visited.addAll(depthFirstSearch(neighbor));
-
-
                     visitedSet.add(neighbor);
                 }
             }
