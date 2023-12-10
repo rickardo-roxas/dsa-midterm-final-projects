@@ -100,8 +100,8 @@ public class GraphUtility {
      * @return
      */
     public ArrayList<Vertex> breadthFirstSearch(Vertex start) {
-        Queue<Vertex> queue = new LinkedList<>();
-        ArrayList<Vertex> visited = new ArrayList<>();
+        Queue<Vertex> queue = new LinkedList<>(); // Adjacent nodes of current vertex
+        ArrayList<Vertex> visited = new ArrayList<>(); // Visited Nodes
 
         visited.add(start);
         queue.add(start);
@@ -110,11 +110,11 @@ public class GraphUtility {
             Vertex curr = queue.poll();
 
 
-            List<Edge> edges = graph.getEdges();
+            List<Edge> edges = graph.getEdges(); // Get the edges of the current graph
 
             for (Edge edge : edges){
-                if (edge.getStart().equals(curr)){
-                    Vertex neighbor = edge.getEnd();
+                if (edge.getStart().equals(curr)){ // If it is a neighbour
+                    Vertex neighbor = edge.getEnd(); // Get the adjacent node
 
                     if (!visited.contains(neighbor) && !queue.contains(neighbor)){
                         queue.add(neighbor);
@@ -132,6 +132,44 @@ public class GraphUtility {
 
 
     public void dijkstraShortestPath(Vertex start, Vertex end) {
+        PriorityQueue<Vertex> priorityQueue = new PriorityQueue<>();
+        HashSet<Vertex> visited = new HashSet<>();
+
+        List<Vertex> vertices = graph.getNodes();  // Get the vertices
+        List<Edge> edges = graph.getEdges();
+        int[] distance = new int[graph.getCount()]; // Will hold all the distances of the vertices
+        Arrays.fill(distance, Integer.MAX_VALUE);  // Make the distances infinity
+
+
+        // Set the weight of start node equal to 0 to signify it is the start ndoe
+        for (Edge edge : edges) {
+            if (edge.getStart().equals(start)) {
+                edge.setWeight(0);
+            }
+        }
+
+        priorityQueue.add(start);  //Add start to priority queue
+
+        distance[vertices.indexOf(start)] = 0;
+
+        while (visited.size() != priorityQueue.size()) {
+            Vertex workingNode = priorityQueue.remove();
+            visited.add(workingNode);
+
+            // Get number of nodes adjacent to the working node
+            int numberOfAdjacentNodes = 0;
+            for (Edge edge : edges)
+                if (edge.getStart().equals(start))
+                    numberOfAdjacentNodes+=1;
+
+            for (int x = 0 ; x < numberOfAdjacentNodes; x++ ) {
+
+            }
+
+        }
+
+
 
     }
+
 }
