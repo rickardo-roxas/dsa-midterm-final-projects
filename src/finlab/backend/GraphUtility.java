@@ -77,7 +77,7 @@ public class GraphUtility {
         }
     }
 
-    public ArrayList<Vertex> depthFirstSearch(Vertex start) {
+    public ArrayList<Vertex> depthFirstSearch(Vertex start, int depthLimit) {
         Set<Vertex> visited = new HashSet<>();
 
         visited.add(start);
@@ -86,9 +86,9 @@ public class GraphUtility {
         for (Edge edge : edges) {
             if (edge.getStart().equals(start)) {
                 Vertex neighbor = edge.getEnd();
-                if (!visited.contains(neighbor)) {
+                if (!visited.contains(neighbor) && depthLimit > 0) {
                     visited.add(neighbor);
-                    depthFirstSearch(neighbor);
+                    depthFirstSearch(neighbor, depthLimit-1);
                 }
             }
         }
