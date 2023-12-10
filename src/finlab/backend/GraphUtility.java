@@ -78,26 +78,23 @@ public class GraphUtility {
     }
 
     public ArrayList<Vertex> depthFirstSearch(Vertex start) {
-        ArrayList<Vertex> visited = new ArrayList<>();
-        Set<Vertex> visitedSet = new HashSet<>();
+        Set<Vertex> visited = new HashSet<>();
 
-        visitedSet.add(start);
         visited.add(start);
 
         List<Edge> edges = graph.getEdges();
         for (Edge edge : edges) {
             if (edge.getStart().equals(start)) {
                 Vertex neighbor = edge.getEnd();
-
-
-                if (!visitedSet.contains(neighbor) && !visited.contains(neighbor)) {
-                    visited.addAll(depthFirstSearch(neighbor));
-                    visitedSet.add(neighbor);
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    depthFirstSearch(neighbor);
                 }
             }
         }
 
-        return visited;
+        ArrayList<Vertex> visitedList = new ArrayList<>(visited);
+        return visitedList;
     }
 
 
