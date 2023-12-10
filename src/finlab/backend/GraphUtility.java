@@ -79,33 +79,24 @@ public class GraphUtility {
 
     public ArrayList<Vertex> depthFirstSearch(Vertex start) {
         ArrayList<Vertex> visited = new ArrayList<>();
-        Set<Vertex> stackSet = new HashSet<>();
-        Stack<Vertex> stack = new Stack<>();
+        Set<Vertex> visitedSet = new HashSet<>();
 
-        stack.push(start);
+        visitedSet.add(start);
+        visited.add(start);
 
-        while (!stack.isEmpty()) {
-            Vertex current = stack.pop();
+        List<Edge> edges = graph.getEdges();
+        for (Edge edge : edges) {
+            if (edge.getStart().equals(start)) {
+                Vertex neighbor = edge.getEnd();
 
-            if (!stackSet.contains(current)) {
-                visited.add(current);
-                stackSet.add(current);
 
-                // Get the edges from the graph
-                List<Edge> edges = graph.getEdges();
+                if (!visitedSet.contains(neighbor)) {
 
-                for (Edge edge : edges) {
-                    if (edge.getStart().equals(current)) {
-                        Vertex neighbor = edge.getEnd();
+                    visited.addAll(depthFirstSearch(neighbor));
 
-                        if (!stackSet.contains(neighbor) && !visited.contains(neighbor)) {
-                            stack.push(neighbor);
-                        }
-                    }
+
+                    visitedSet.add(neighbor);
                 }
-            }
-            if (!stack.isEmpty()) {
-                stack.push(current);
             }
         }
 
