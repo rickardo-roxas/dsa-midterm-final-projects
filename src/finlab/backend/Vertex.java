@@ -10,6 +10,7 @@ public class Vertex{
     //Class variables
     private String label;
     private List<Edge> neighbors;
+    private int id;
 
     /**
      * Default Constructor
@@ -26,6 +27,10 @@ public class Vertex{
     public Vertex(String label) {
         this.label = label;
         this.neighbors = new ArrayList<>();
+    }
+
+    public void addEdge(Edge edge) {
+        this.neighbors.add(edge);
     }
 
     /**
@@ -92,5 +97,15 @@ public class Vertex{
         }
         Vertex otherVertex = (Vertex) obj;
         return label.equals(otherVertex.label);
+    }
+
+    // Getter for id
+    public int getId() {
+        return id;
+    }
+
+    // Setter for id
+    public void setId(int id) {
+        this.id = id;
     }
 }

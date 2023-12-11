@@ -52,6 +52,12 @@ public class Graph {
         edges.add(new Edge(start, end));
     }
 
+    public void addEdge(Vertex start, Vertex end, int weight) {
+        Edge edge = new Edge(start, end, weight);
+        edges.add(edge);
+        start.addEdge(edge);
+    }
+
     /**
      * Setter to set nodes
      * @param nodes : List<Vertex

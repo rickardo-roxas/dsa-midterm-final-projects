@@ -3,6 +3,8 @@ package finlab.backend;
 import java.io.*;
 import java.lang.*;
 import java.util.*;
+import java.util.stream.Collectors;
+
 
 /**
  * GraphUtility class
@@ -41,28 +43,30 @@ public class GraphUtility {
      * @throws Exception if error or exception occurs
      */
     public void readFile(File file) throws Exception {
-        BufferedReader br;
-        try {
-            br = new BufferedReader(new FileReader(file));
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             graph = new Graph();
             String line;
             int y = 0;
 
             while ((line = br.readLine()) != null) {
                 String[] tokens = line.split(",");
-                populateVertices(tokens.length);
+                if (graph.getCount() == 0) {
+                    populateVertices(tokens.length);
+                }
 
                 for (int x = 0; x < tokens.length; x++) {
-                    if (!tokens[x].equals("0")) {
-                        graph.addEdge(graph.getNodes().get(y), graph.getNodes().get(x));
+                    int weight = Integer.parseInt(tokens[x].trim());
+                    if (weight != 0) {
+                        Vertex sourceVertex = graph.getNodes().get(y);
+                        Vertex destinationVertex = graph.getNodes().get(x);
+                        graph.addEdge(sourceVertex, destinationVertex, weight);
                     }
                 }
                 y++;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            e.getMessage();
-            throw new Exception();
+            throw new Exception("Error reading the file.");
         }
     }
 
@@ -82,6 +86,7 @@ public class GraphUtility {
             for (int i = 0; i < verticesCount; i++) {
                 symbol = labels.charAt(i);
                 Vertex vertex = new Vertex(String.valueOf(symbol));
+                vertex.setId(i);  // Assign unique ID to each vertex
                 vertices.add(vertex);
                 graph.addVertex(vertex);
             }
@@ -90,6 +95,7 @@ public class GraphUtility {
             graph = new Graph();
         }
     }
+
 
     public void depthFirstSearch(Vertex start) {
         // TODO: write corresponding code here
@@ -130,72 +136,102 @@ public class GraphUtility {
         return visited;
     }
 
+    public ArrayList<Vertex> dijkstraShortestPath(Graph graph, Vertex start, Vertex end) {
 
-    public static void main(String[] args) {
-        int adjMat [] [] = {
-                {0, 2, 0, 4, 0, 0},
-                {0, 0, 3, 2, 0, 0},
-                {2, 0, 0, 0, 0, 4},
-                {0, 0, 0, 0, 2, 0},
-                {0, 0, 0, 0, 0, 1},
-                {0, 0, 0, 0, 0, 0}};
+        //Will hold the distances
+        double[] distance = new double[graph.getNodes().size()];
 
-        //creating a distance array to keep a note of distance of vertex from source
-        int [] distance = new int[adjMat.length];
+        //Will hold the previous nodes to get to curr node
+        Vertex[] predecessor = new Vertex[graph.getNodes().size()];
 
-        //taking source vertex to be 0
-        int source = 0;
+        // Will hold all the visited paths
+        boolean[] visited = new boolean[graph.getNodes().size()];
 
-        //creating a visited array to keep a count of visited vertices.
-        boolean [] visited = new boolean[adjMat.length];
+        // 1. Initialize distances to all equal infinity
+        Arrays.fill(distance, Double.POSITIVE_INFINITY);
 
-        //marking distance of source vertex
-        distance[source] = 0;
+        // 2. Set start vertex to 0
+        distance[start.getId()] = 0;
 
-        // filling up other distance in array "distance" as infinity or the max value
-        for (int i = 0; i < adjMat.length; i++) {
-            if( i == source) continue;
-            distance[i] = Integer.MAX_VALUE;
-        }
+        // Use a PriorityQueue to get the minimum distance vertex
+        PriorityQueue<VertexDistancePair> pq = new PriorityQueue<>();
+        pq.add(new VertexDistancePair(start, 0));
 
-        //finding the vertex that is most close to current node or source
-        for(int i = 0; i < adjMat.length; i++) {
-            int minDistVertex = findMinDistVertex(distance, visited);
+        while (!pq.isEmpty()) {
+            VertexDistancePair currentPair = pq.poll();
+            Vertex currentVertex = currentPair.getVertex();
 
-            //marking the vertex that is most close to source/current vertex as true
-            visited[minDistVertex] = true;
+            if (!visited[currentVertex.getId()]) {
+                visited[currentVertex.getId()] = true;
 
-            //exploring the neighbors of each vertex and updating distance array with new distance
-            for(int j = 0; j < adjMat.length; j++) {
-                if(adjMat[minDistVertex][j] != 0 && visited[j] == false && distance[minDistVertex] != Integer.MAX_VALUE) {
-                    int newDist = distance[minDistVertex] + adjMat[minDistVertex][j];
-                    if(newDist < distance[j]) {
-                        distance[j] = newDist;
+                for (Edge neighbor : currentVertex.getNeighbors()) {
+                    int neighborIndex = neighbor.getEnd().getId();
+
+                    if (!visited[neighborIndex]) {
+                        double newDistance = distance[currentVertex.getId()] + neighbor.getWeight();
+                        if (newDistance < distance[neighborIndex]) {
+                            distance[neighborIndex] = newDistance;
+                            predecessor[neighborIndex] = currentVertex;
+                            pq.add(new VertexDistancePair(neighbor.getEnd(), (int) newDistance));
+                        }
                     }
                 }
             }
         }
+        System.out.println("Vertex IDs: " + Arrays.toString(graph.getNodes().stream().map(Vertex::getId).toArray()));
+        System.out.println("Edge Weights: " + graph.getEdges().stream().map(Edge::getWeight).collect(Collectors.toList()));
+        System.out.println("Distances: " + Arrays.toString(distance));
 
-        for(int i = 0; i < adjMat.length; i++) {
-            System.out.println("Vertex : " + i + " & Distance from Source : " +distance[i]);
+
+        // Construct the shortest path
+        ArrayList<Vertex> shortestPath = new ArrayList<>();
+        Vertex current = end;
+        while (current != null) {
+            shortestPath.add(current);
+            current = predecessor[current.getId()];
         }
 
-        for (int distance1 : distance) {
-            System.out.println(distance1);
-        }
+        // Reverse the path to get it from start to end
+        Collections.reverse(shortestPath);
+        return shortestPath;
+    }
+}
+
+/**
+ * Class to be used in dijkstraShortestPath since it requires a means to store the distance.
+ */
+class VertexDistancePair implements Comparable<VertexDistancePair> {
+    private Vertex vertex;
+    private double distance;
+    private Vertex predecessor;
+
+    public VertexDistancePair(Vertex vertex, double distance) {
+        this.vertex = vertex;
+        this.distance = distance;
+        this.predecessor = null;
     }
 
-    public static int findMinDistVertex(int[] distance, boolean [] visited) {
-
-        int minVertex = -1;
-
-        //traversing through the distance array and finding the least distance vertex whose visited is also false
-        for(int i = 0; i < distance.length; i++) {
-            if(visited[i] == false && (minVertex == -1 || distance[i] < distance[minVertex])) {
-                minVertex = i;
-            }
-        }
-        return minVertex;
+    // Getter and setter for predecessor
+    public Vertex getPredecessor() {
+        return predecessor;
     }
 
+    public void setPredecessor(Vertex predecessor) {
+        this.predecessor = predecessor;
+    }
+
+    // Getter and setter for vertex
+    public Vertex getVertex() {
+        return vertex;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    // Compare to method to compare by distance
+    @Override
+    public int compareTo(VertexDistancePair other) {
+        return Double.compare(this.distance, other.distance);
+    }
 }
