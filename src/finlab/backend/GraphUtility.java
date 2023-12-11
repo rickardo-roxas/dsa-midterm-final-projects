@@ -170,7 +170,17 @@ public class GraphUtility {
         return visited;
     }
 
-    public ArrayList<Vertex> dijkstraShortestPath(Graph graph, Vertex start, Vertex end) {
+    public ArrayList<Vertex> dijkstraShortestPath(Graph graph, String startLabel, String endLabel) {
+        List<Vertex> nodes =  graph.getNodes();
+        Vertex start = null, end = null;
+        for (Vertex vertex : nodes) {
+            if (vertex.getLabel().equalsIgnoreCase(startLabel)) {
+                start = vertex;
+            }
+            if (vertex.getLabel().equalsIgnoreCase(endLabel)) {
+                end = vertex;
+            }
+        }
 
         //Will hold the distances
         double[] distance = new double[graph.getNodes().size()];
