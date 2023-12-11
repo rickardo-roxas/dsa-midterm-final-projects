@@ -13,18 +13,32 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+/**
+ * The GraphVisualization class is an unused class that extends JPanel and is used for visualizing graphs.
+ */
 public class GraphVisualization extends JPanel {
+    // Resources for color settings
     private final Resources resources = new Resources();
+    // GraphUtility for handling graph-related operations
     private GraphUtility graphUtility;
+    // Variables for handling mouse events and panning
     private Point clickPoint;
     private Point offset = new Point(0, 0);
+    // Slider for zoom control
     private JSlider zoomSlider;
+    // Zoom level for the graph visualization
     private double zoomLevel = 1.0;
 
+    /**
+     * Constructs a GraphVisualization object with the specified GraphUtility.
+     *
+     * @param graphUtility The GraphUtility to be visualized.
+     */
     public GraphVisualization(GraphUtility graphUtility) {
         this.graphUtility = graphUtility;
 
         clickPoint = null;
+        // Zoom slider setup
         zoomSlider = new JSlider(JSlider.HORIZONTAL, 50, 200, 100);
 
         zoomSlider.addChangeListener(new ChangeListener() {
@@ -35,6 +49,7 @@ public class GraphVisualization extends JPanel {
             }
         });
 
+        // Mouse event listeners for panning
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -61,10 +76,17 @@ public class GraphVisualization extends JPanel {
             }
         });
 
+        // Set up layout and add zoom slider
         setLayout(new BorderLayout());
         add(zoomSlider, BorderLayout.SOUTH);
     }
 
+    /**
+     * Draws the graph on the specified Graphics object.
+     *
+     * @param g     The Graphics object on which to draw the graph.
+     * @param graph The Graph object to be visualized.
+     */
     void drawGraph(Graphics g, Graph graph) {
         List<Vertex> vertices = graph.getNodes();
         List<Edge> edges = graph.getEdges();
@@ -101,15 +123,26 @@ public class GraphVisualization extends JPanel {
         }
     }
 
+    /**
+     * Handles the scrolling of the graph view based on the specified deltas.
+     *
+     * @param dx The change in the x-coordinate.
+     * @param dy The change in the y-coordinate.
+     */
     private void scroll(int dx, int dy) {
         offset.x = Math.max(Math.min(offset.x + dx, getWidth()), 0);
         offset.y = Math.max(Math.min(offset.y + dy, getHeight()), 0);
         repaint();
     }
 
+    /**
+     * Overrides the paintComponent method to draw the graph on the panel.
+     *
+     * @param g The Graphics object on which to paint the component.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawGraph(g, graphUtility.getGraph());
     }
-}
+} // End of GraphVisualization class
