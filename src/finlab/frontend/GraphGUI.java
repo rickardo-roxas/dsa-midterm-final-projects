@@ -11,29 +11,76 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class, GraphGUI represents a graphical user interface for a program focused on graph traversal
+ * and finding the shortest path in a graph.
+ * The GUI consists of a main frame containing a central panel, a sidebar, and multiple
+ * card panels for different functionalities like home, import, visualize, traverse, and path.
+ */
 public class GraphGUI extends JFrame {
+
+    /** The resources object for managing external resources. */
     private final Resources resources = new Resources();
+
+    /** The utility class for handling graph-related operations. */
     private GraphUtility graphUtility = new GraphUtility();
+
+    /** The main panel containing the entire GUI components. */
     private JPanel panelMain;
+
+    /** The central panel within the main panel. */
     private JPanel panelCenter;
+
+    /** The sidebar panel containing navigation options. */
     private JPanel panelSidebar;
+
+    /** The home panel for the default view. */
     private JPanel panelHome;
+
+    /** The panel for visualizing the graph. */
     private JPanel panelVisualize;
+
+    /** The panel for importing data. */
     private JPanel panelImport;
+
+    /** The panel for graph traversal. */
     private JPanel panelTraverse;
+
+    /** The panel for finding the shortest path. */
     private JPanel panelPath;
+
+    /** The card layout panel to switch between different functionalities. */
     private JPanel panelCard;
+
+    /** Button for navigating to the home panel. */
     private JButton btnHome;
+
+    /** Button for navigating to the import panel. */
     private JButton btnImport;
+
+    /** Button for navigating to the visualize panel. */
     private JButton btnVisualize;
+
+    /** Button for navigating to the traverse panel. */
     private JButton btnTraverse;
+
+    /** Button for navigating to the path panel. */
     private JButton btnPath;
+
+    /** Button for exiting the application. */
     private JButton btnExit;
+
+    /** Text area for displaying output or information. */
     private JTextArea txtAreaOutput = new JTextArea();
-    private final CardLayout cardLayout = new CardLayout(10,20);
+
+    /** The card layout manager for switching between different card panels. */
+    private final CardLayout cardLayout = new CardLayout(10, 20);
 
     /**
-     * TODO: Documentation
+     * It Constructs a new instance of the GraphGUI class.
+     * Initializes the main frame with a title, sets up the layout, and populates
+     * various panels for different functionalities. Finally, sets the frame properties
+     * such as size, visibility, and default close operation.
      */
     public GraphGUI() {
         super("Graph Traversal and Shortest Path");
@@ -86,6 +133,12 @@ public class GraphGUI extends JFrame {
         setVisible(true);
     } // end of GraphGUI constructor
 
+    /**
+     * It populates the sidebar panel with navigation buttons for different functionalities.
+     * Each button triggers a card layout switch to the corresponding panel and updates
+     * the button colors for visual feedback.
+     * @return The populated sidebar panel with navigation buttons.
+     */
     private JPanel populateSidebar() {
         JPanel panelSidebar = new JPanel();
         panelSidebar.setBackground(resources.richBlack);
@@ -163,6 +216,11 @@ public class GraphGUI extends JFrame {
         return panelSidebar;
     }
 
+    /**
+     * This populates the home panel with welcome messages, instructions, and a continue button.
+     * The home panel serves as the initial view when the application starts.
+     * @return The populated home panel containing welcome messages, instructions, and a continue button.
+     */
     private JPanel populatePanelHome() {
         JPanel panelContainer = new JPanel();
         panelContainer.setBorder(resources.normalPadding);
@@ -204,6 +262,11 @@ public class GraphGUI extends JFrame {
         return panelContainer;
     }
 
+    /**
+     * This populates the import panel with components for importing graph data from a file.
+     * The panel includes a button to trigger the file selection dialog, a display area for
+     * the adjacency matrix, and buttons for clearing the data or proceeding to visualization.
+     */
     private JPanel populatePanelImport() {
         JPanel panelContainer = new JPanel();
         panelContainer.setBorder(resources.normalPadding);
@@ -297,6 +360,11 @@ public class GraphGUI extends JFrame {
         return panelContainer;
     }
 
+    /**
+     * This populates the visualized panel with components for displaying graph information and visualization.
+     * The panel includes a text area for graph details and a visualization area using GraphVisualization.
+     * @return The populated visualize panel with components for graph details and visualization.
+     */
     private JPanel populatePanelVisualize() {
         JPanel panelContainer = new JPanel();
         panelContainer.setBorder(resources.normalPadding);
@@ -326,6 +394,10 @@ public class GraphGUI extends JFrame {
         return panelContainer;
     }
 
+    /**
+     * This populates the traverse panel with components for specifying traversal parameters,
+     * performing graph traversal, and displaying traversal results.
+     */
     private JPanel populatePanelTraverse() {
         JPanel panelContainer = new JPanel();
         panelContainer.setBorder(resources.normalPadding);
@@ -418,6 +490,11 @@ public class GraphGUI extends JFrame {
         return panelContainer;
     }
 
+    /**
+     * This populates the path panel with components for specifying path parameters,
+     * finding paths using Dijkstra's algorithm, and displaying path results.
+     * @return The populated path panel with components for finding paths in the graph.
+     */
     private JPanel populatePanelPath() {
         JPanel panelContainer = new JPanel();
         panelContainer.setBorder(resources.normalPadding);
@@ -507,6 +584,10 @@ public class GraphGUI extends JFrame {
         return panelContainer;
     }
 
+    /**
+     * This populates a JTextArea with instructional text for guiding the user on how to use the graph application.
+     * @return The populated JTextArea containing instructions for using the graph application.
+     */
     private JTextArea populateTextAreaInstructions() {
         JTextArea textArea = new JTextArea();
 
@@ -527,6 +608,11 @@ public class GraphGUI extends JFrame {
         return textArea;
     }
 
+    /**
+     * Creates a JButton for the sidebar with the specified text.
+     * @param text The text to be displayed on the button.
+     * @return The created JButton for the sidebar.
+     */
     private JButton createButtonSidebar(String text) {
         JButton button = new JButton(text);
         button.setHorizontalAlignment(SwingConstants.LEFT);
@@ -537,6 +623,11 @@ public class GraphGUI extends JFrame {
         return button;
     }
 
+    /**
+     * Creates a JButton for the home panel with the specified text.
+     * @param text The text to be displayed on the button.
+     * @return The created JButton for the home panel.
+     */
     private JButton createButtonHome(String text) {
         JButton button = new JButton(text);
         button.setFont(resources.montserratBold);
@@ -548,6 +639,12 @@ public class GraphGUI extends JFrame {
         return button;
     }
 
+
+    /**
+     * Creates a JButton for the traverse panel with the specified text.
+     * @param text The text to be displayed on the button.
+     * @return The created JButton for the traverse panel.
+     */
     private JButton createButtonTraverse(String text) {
         JButton button = new JButton(text);
         button.setFont(resources.montserratBold);
@@ -560,6 +657,14 @@ public class GraphGUI extends JFrame {
         return button;
     }
 
+    /**
+     * Changes the foreground color of specified buttons to highlight the active button.
+     * @param button1 The first button to be highlighted.
+     * @param button2 The second button.
+     * @param button3 The third button.
+     * @param button4 The fourth button.
+     * @param button5 The fifth button.
+     */
     private void btnColorChangeSidebar(JButton button1, JButton button2, JButton button3, JButton button4, JButton button5) {
         button1.setForeground(resources.ultravioletBlue);
         button2.setForeground(resources.white);
@@ -568,6 +673,12 @@ public class GraphGUI extends JFrame {
         button5.setForeground(resources.white);
     }
 
+    /**
+     * Creates a JLabel with the specified text and color.
+     * @param text  The text to be displayed on the label.
+     * @param color The color of the label text.
+     * @return The created JLabel.
+     */
     private JLabel createLabel(String text, Color color) {
         JLabel label = new JLabel();
         label.setText(text);
@@ -576,6 +687,10 @@ public class GraphGUI extends JFrame {
         return label;
     }
 
+    /**
+     * Creates a JTextArea with specific formatting and properties.
+     * @return The created JTextArea.
+     */
     private JTextArea createTextAreaOutput() {
         JTextArea textArea = new JTextArea();
         textArea.setMargin(new Insets(10,10,10,10));
