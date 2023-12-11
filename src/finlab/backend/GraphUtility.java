@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * GraphUtility class
+ * GraphUtility class for working with graphs and related algorithms.
  */
 public class GraphUtility {
 
@@ -116,6 +116,12 @@ public class GraphUtility {
         }
     }
 
+    /**
+     * Performs depth-first search starting from a given vertex.
+     * @param start The starting vertex.
+     * @param visited List of visited vertices.
+     * @return List of vertices visited in depth-first order.
+     */
     public ArrayList<Vertex> depthFirstSearch(Vertex start, ArrayList<Vertex> visited) {
         visited.add(start);
 
@@ -170,6 +176,13 @@ public class GraphUtility {
         return visited;
     }
 
+    /**
+     * Finds the shortest path using Dijkstra's algorithm.
+     * @param graph The graph to search.
+     * @param startLabel The label of the starting vertex.
+     * @param endLabel The label of the destination vertex.
+     * @return List of vertices representing the shortest path.
+     */
     public ArrayList<Vertex> dijkstraShortestPath(Graph graph, String startLabel, String endLabel) {
         List<Vertex> nodes =  graph.getNodes();
         Vertex start = null, end = null;
@@ -252,6 +265,12 @@ class VertexDistancePair implements Comparable<VertexDistancePair> {
     private double distance;
     private Vertex predecessor;
 
+
+    /**
+     * Constructs a VertexDistancePair.
+     * @param vertex The vertex.
+     * @param distance The distance.
+     */
     public VertexDistancePair(Vertex vertex, double distance) {
         this.vertex = vertex;
         this.distance = distance;
@@ -263,6 +282,10 @@ class VertexDistancePair implements Comparable<VertexDistancePair> {
         return predecessor;
     }
 
+    /**
+     * Sets the predecessor vertex.
+     * @param predecessor The predecessor vertex to set.
+     */
     public void setPredecessor(Vertex predecessor) {
         this.predecessor = predecessor;
     }
@@ -276,7 +299,11 @@ class VertexDistancePair implements Comparable<VertexDistancePair> {
         return distance;
     }
 
-    // Compare to method to compare by distance
+    /**
+     * Compares two VertexDistancePairs based on distance.
+     * @param other The other VertexDistancePair.
+     * @return A negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
+     */
     @Override
     public int compareTo(VertexDistancePair other) {
         return Double.compare(this.distance, other.distance);
