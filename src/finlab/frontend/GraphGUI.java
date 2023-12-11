@@ -505,7 +505,7 @@ public class GraphGUI extends JFrame {
                     visited = graphUtility.dijkstraShortestPath(graphUtility.getGraph(), startNode, endNode);
                 }
             }
-            txtAreaOutput.setText("Results:\n" + visited.toString());
+            txtAreaOutput.setText("Results:\n" + visited.toString() +"\n\n" + graphUtility.getDijkstraData().toString());
         });
 
         panelContainer.revalidate();

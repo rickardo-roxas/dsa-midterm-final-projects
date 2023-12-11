@@ -13,12 +13,14 @@ public class GraphUtility {
 
     // Class variable
     private Graph graph;
+    private StringBuilder dijkstraData;
 
     /**
      * Default constructor for class
      */
     public GraphUtility() {
         graph = null;
+        dijkstraData = null;
     }
 
     /**
@@ -29,12 +31,20 @@ public class GraphUtility {
         return graph;
     }
 
+    public StringBuilder getDijkstraData() {
+        return dijkstraData;
+    }
+
     /**
      * Setter for graph
      * @param graph
      */
     public void setGraph(Graph graph) {
         this.graph = graph;
+    }
+
+    public void setDijkstraData(StringBuilder dijkstraData) {
+        this.dijkstraData = dijkstraData;
     }
 
     /**
@@ -192,9 +202,12 @@ public class GraphUtility {
                 }
             }
         }
-        System.out.println("Vertex IDs: " + Arrays.toString(graph.getNodes().stream().map(Vertex::getId).toArray()));
-        System.out.println("Edge Weights: " + graph.getEdges().stream().map(Edge::getWeight).collect(Collectors.toList()));
-        System.out.println("Distances: " + Arrays.toString(distance));
+        dijkstraData = new StringBuilder();
+        dijkstraData.append("Vertex IDs: " + Arrays.toString(graph.getNodes().stream().map(Vertex::getId).toArray()));
+        dijkstraData.append("\n");
+        dijkstraData.append("Edge Weights: " + graph.getEdges().stream().map(Edge::getWeight).collect(Collectors.toList()));
+        dijkstraData.append("\n");
+        dijkstraData.append("Distances: " + Arrays.toString(distance));
 
 
         // Construct the shortest path
