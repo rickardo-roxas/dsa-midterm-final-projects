@@ -2,11 +2,14 @@ package finlab.frontend;
 
 import finlab.backend.Graph;
 import finlab.backend.GraphUtility;
+import finlab.backend.Vertex;
 import javax.swing.*;
 import java.awt.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GraphGUI extends JFrame {
     private final Resources resources = new Resources();
@@ -26,8 +29,7 @@ public class GraphGUI extends JFrame {
     private JButton btnTraverse;
     private JButton btnPath;
     private JButton btnExit;
-    private JLabel lblVertices;
-    private JLabel lblEdges;
+    private JTextArea txtAreaOutput = new JTextArea();
     private final CardLayout cardLayout = new CardLayout(10,20);
 
     /**
@@ -181,8 +183,8 @@ public class GraphGUI extends JFrame {
         panelContainer.setPreferredSize(new Dimension(700, 300));
         panelContainer.add(panelInstructions, BorderLayout.CENTER);
 
-        JLabel labelInstructions = new JLabel("Instructions here.");
-        panelInstructions.add(labelInstructions);
+        JTextArea txtAreaInstructions = populateTextAreaInstructions();
+        panelInstructions.add(txtAreaInstructions);
 
         JPanel panelButtons = new JPanel();
         panelButtons.setPreferredSize(new Dimension(700, 100));
@@ -217,6 +219,7 @@ public class GraphGUI extends JFrame {
         panelImport.add(btnImport, BorderLayout.NORTH);
 
         JPanel panelMatrix = new JPanel();
+        panelMatrix.setBackground(resources.white);
         panelMatrix.setLayout(new BorderLayout());
         panelMatrix.setPreferredSize(new Dimension(900,400));
 
@@ -230,6 +233,7 @@ public class GraphGUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(panelMatrix);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         panelContainer.add(scrollPane, BorderLayout.CENTER);
 
         JPanel panelButton = new JPanel();
@@ -256,8 +260,6 @@ public class GraphGUI extends JFrame {
                     graphUtility.readFile(fileChooser.getSelectedFile());
                     btnNext.setEnabled(true);
                     btnClear.setEnabled(true);
-                    lblVertices.setText("V={" + graphUtility.getGraph().getNodes().toString() + "}");
-                    lblEdges.setText("E={" + graphUtility.getGraph().getEdges().toString() + "}");
                     JOptionPane.showInternalMessageDialog(null,
                             "Successfully Imported Contents of file",
                             "Import Status", JOptionPane.INFORMATION_MESSAGE);
@@ -267,6 +269,10 @@ public class GraphGUI extends JFrame {
 
                     txtAreaMatrix.setText(graphUtility.getGraph().toString() + "\n\n" +
                             "Adjacency Matrix:" + "\n" + fileContents);
+
+                    txtAreaOutput.setText("Graph:\n\n" + "V={" + graphUtility.getGraph().getNodes().toString() + "}\n" +
+                            "E={" + graphUtility.getGraph().getEdges().toString() + "}\n\n" +
+                            "Adjacency Matrix:\n" + fileContents);
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();
@@ -299,23 +305,25 @@ public class GraphGUI extends JFrame {
 
         // Container Panel Components
         JPanel panelText = new JPanel();
-        panelText.setPreferredSize(new Dimension(1000,80));
-        panelText.setLayout(new GridLayout(2,1));
-        panelContainer.add(panelText, BorderLayout.NORTH);
+        panelText.setPreferredSize(new Dimension(800,400));
+        panelText.setLayout(new GridLayout(1,1));
+        panelText.setBackground(resources.white);
 
         // ! Text Panel Components
-        lblVertices = new JLabel();
-        lblVertices.setHorizontalAlignment(SwingConstants.LEFT);
-        lblVertices.setText("Import file first");
-        panelText.add(lblVertices);
+        txtAreaOutput = createTextAreaOutput();
+        txtAreaOutput.setText("Import file first.");
+        panelText.add(txtAreaOutput);
 
-        lblEdges = new JLabel();
-        lblEdges.setHorizontalAlignment(SwingConstants.LEFT);
-        panelText.add(lblEdges);
+        JScrollPane scrollPane = new JScrollPane(panelText);
+        scrollPane.setPreferredSize(new Dimension(500,100));
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        panelContainer.add(scrollPane, BorderLayout.NORTH);
 
         // Container Panel Components
         JPanel panelVisualization = new GraphVisualization(graphUtility);
-        panelVisualization.setPreferredSize(new Dimension(700,420));
+        panelVisualization.setPreferredSize(new Dimension(700,300));
         panelContainer.add(panelVisualization, BorderLayout.SOUTH);
 
         panelVisualization.repaint();
@@ -389,11 +397,23 @@ public class GraphGUI extends JFrame {
         // Output Panel
         JPanel panelOutput = new JPanel();
         panelOutput.setPreferredSize(new Dimension(700,300));
+        panelOutput.setBackground(resources.white);
         panelContainer.add(panelOutput, BorderLayout.SOUTH);
 
         // ! Output Panel Components
         JTextArea txtAreaOutput = createTextAreaOutput();
         panelOutput.add(txtAreaOutput);
+
+        btnTraverse.addActionListener(e -> {
+            Vertex startNode = new Vertex(txtFieldStartNode.getText());
+            List<Vertex> visited = new ArrayList<>();
+            if (btnGrpRadio.isSelected(radioBtnBfs.getModel())) {
+                if (graphUtility.getGraph().getNodes().contains(startNode)) {
+                    visited = graphUtility.breadthFirstSearch(startNode);
+                }
+            }
+            txtAreaOutput.setText("Results:\n" + visited.toString());
+        });
 
         panelContainer.revalidate();
         panelContainer.repaint();
@@ -476,6 +496,26 @@ public class GraphGUI extends JFrame {
         return panelContainer;
     }
 
+    private JTextArea populateTextAreaInstructions() {
+        JTextArea textArea = new JTextArea();
+
+        String instructions = "Instructions:\n\n" +
+                "1. Import a file in the Import File menu. Files are provided for undirected, directed, weighted, and unweighted graphs.\n" +
+                "2. To traverse a graph, input a starting node from the imported file and choose a search algorithm.\n" +
+                "3. To find a shortest path, input a start and end node from the imported graph. By default, the Dijkstra Algorithm is to be used.\n\n" +
+                "**Note: This program can only visualize a graph when initialized; but not the traversing and shortest path visualization.";
+
+        textArea.setText(instructions);
+        textArea.setPreferredSize(new Dimension(500, 260));
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        textArea.setOpaque(false);
+        textArea.setEditable(false);
+        textArea.setFocusable(false);
+        textArea.setForeground(resources.richBlack);
+        return textArea;
+    }
+
     private JButton createButtonSidebar(String text) {
         JButton button = new JButton(text);
         button.setHorizontalAlignment(SwingConstants.LEFT);
@@ -527,9 +567,15 @@ public class GraphGUI extends JFrame {
 
     private JTextArea createTextAreaOutput() {
         JTextArea textArea = new JTextArea();
+        textArea.setMargin(new Insets(10,10,10,10));
         textArea.setColumns(50);
         textArea.setRows(12);
         textArea.setEditable(false);
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        textArea.setOpaque(false);
+        textArea.setEditable(false);
+        textArea.setFocusable(false);
         return textArea;
     }
 } // end of GraphGUI class
