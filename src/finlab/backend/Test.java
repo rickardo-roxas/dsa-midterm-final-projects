@@ -9,7 +9,7 @@ public class Test {
         // Instantiate GraphUtility and read graph from file
         GraphUtility graphUtility = new GraphUtility();
         try {
-            File file = new File("graphs/weighted-directed-matrix");  // Replace with your file path
+            File file = new File("graphs/unweighted-undirected-matrix");  // Replace with your file path
             graphUtility.readFile(file);
         } catch (Exception e) {
             e.printStackTrace();
@@ -23,7 +23,7 @@ public class Test {
         Vertex source = graph.getNodes().get(0);
 
         // Dijkstra's algorithm
-        ArrayList<Vertex> distance = graphUtility.dijkstraShortestPath(graph, graph.getNodes().get(0), graph.getNodes().get(4));
+        ArrayList<Vertex> distance = graphUtility.dijkstraShortestPath(graph, "A", "E" );
 
         // Printing results
             System.out.print("Shortest Path: " + distance + ", ");
