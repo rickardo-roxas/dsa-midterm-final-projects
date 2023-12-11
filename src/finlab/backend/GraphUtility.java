@@ -48,22 +48,26 @@ public class GraphUtility {
     }
 
     /**
-     * TODO: Documentation
+     * Reads the contents of a file into a graph class
      * @param file given file path
      * @throws Exception if error or exception occurs
      */
     public void readFile(File file) throws Exception {
+        // Use a try-with-resources block to ensure that the reader is closed automatically.
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             graph = new Graph();
+            // Read the contents of the file line by line.
             String line;
             int y = 0;
 
             while ((line = br.readLine()) != null) {
+                // Split each line into a list of tokens and trim trailing whitespace.
                 String[] tokens = line.split(",");
+                // Create a new Graph object if the graph has not yet been populated.
                 if (graph.getCount() == 0) {
                     populateVertices(tokens.length);
                 }
-
+                // Add an edge to the graph for each token with a non-zero weight.
                 for (int x = 0; x < tokens.length; x++) {
                     int weight = Integer.parseInt(tokens[x].trim());
                     if (weight != 0) {
@@ -75,6 +79,7 @@ public class GraphUtility {
                 y++;
             }
         } catch (Exception e) {
+            // If an error occurs, print the stack trace and throw an exception.
             e.printStackTrace();
             throw new Exception("Error reading the file.");
         }
@@ -83,16 +88,19 @@ public class GraphUtility {
 
 
     /**
-     * TODO: Documentation
+     * Populates the graph with a number of vertices
      * @param verticesCount given number of nodes
      * @return ArrayList of nodes.
      */
     private void populateVertices(int verticesCount) {
+        // If the graph is not null and populated, create a new list of vertices to hold the nodes.
         if (graph != null) {
             List<Vertex> vertices = new ArrayList<>();
+            // Set a string label for each vertex.
             String labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             char symbol;
 
+            // Iterate through the given number of nodes and create new Vertex objects with unique IDs.
             for (int i = 0; i < verticesCount; i++) {
                 symbol = labels.charAt(i);
                 Vertex vertex = new Vertex(String.valueOf(symbol));
@@ -100,8 +108,10 @@ public class GraphUtility {
                 vertices.add(vertex);
                 graph.addVertex(vertex);
             }
+            // Set the list of vertices as the nodes of the graph.
             graph.setNodes(vertices);
         } else {
+            // If no graph exists, create a new graph.
             graph = new Graph();
         }
     }
