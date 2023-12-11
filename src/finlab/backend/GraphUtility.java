@@ -97,7 +97,6 @@ public class GraphUtility {
     }
 
     public ArrayList<Vertex> depthFirstSearch(Vertex start, ArrayList<Vertex> visited) {
-
         visited.add(start);
 
         for (Edge edge : graph.getEdges()) {

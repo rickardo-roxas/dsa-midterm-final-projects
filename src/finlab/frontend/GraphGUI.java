@@ -411,6 +411,10 @@ public class GraphGUI extends JFrame {
                 if (graphUtility.getGraph().getNodes().contains(startNode)) {
                     visited = graphUtility.breadthFirstSearch(startNode);
                 }
+            } else if (btnGrpRadio.isSelected(radioBtnDfs.getModel())) {
+                if (graphUtility.getGraph().getNodes().contains(startNode)) {
+                    visited = graphUtility.depthFirstSearch(startNode, (ArrayList<Vertex>) visited);
+                }
             }
             txtAreaOutput.setText("Results:\n" + visited.toString());
         });
@@ -486,10 +490,23 @@ public class GraphGUI extends JFrame {
         // Output Panel
         JPanel panelOutput = new JPanel();
         panelOutput.setPreferredSize(new Dimension(700,300));
+        panelOutput.setBackground(resources.white);
         panelContainer.add(panelOutput, BorderLayout.SOUTH);
 
         JTextArea txtAreaOutput = createTextAreaOutput();
         panelOutput.add(txtAreaOutput);
+
+        btnFind.addActionListener(e -> {
+            Vertex startNode = new Vertex(txtFieldStartNode.getText());
+            Vertex endNode = new Vertex(txtFieldEndNode.getText());
+            List<Vertex> visited = new ArrayList<>();
+            if (btnGrpRadio.isSelected(radioBtnDijkstra.getModel())) {
+                if (graphUtility.getGraph().getNodes().contains(startNode) && graphUtility.getGraph().getNodes().contains(endNode)) {
+                    visited = graphUtility.dijkstraShortestPath(graphUtility.getGraph(), startNode, endNode);
+                }
+            }
+            txtAreaOutput.setText("Results:\n" + visited.toString());
+        });
 
         panelContainer.revalidate();
         panelContainer.repaint();
