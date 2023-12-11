@@ -305,7 +305,7 @@ public class GraphGUI extends JFrame {
 
         // Container Panel Components
         JPanel panelText = new JPanel();
-        panelText.setPreferredSize(new Dimension(800,400));
+        panelText.setPreferredSize(new Dimension(800,500));
         panelText.setLayout(new GridLayout(1,1));
         panelText.setBackground(resources.white);
 
@@ -315,18 +315,12 @@ public class GraphGUI extends JFrame {
         panelText.add(txtAreaOutput);
 
         JScrollPane scrollPane = new JScrollPane(panelText);
-        scrollPane.setPreferredSize(new Dimension(500,100));
+        scrollPane.setPreferredSize(new Dimension(500,400));
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         panelContainer.add(scrollPane, BorderLayout.NORTH);
 
-        // Container Panel Components
-        JPanel panelVisualization = new GraphVisualization(graphUtility);
-        panelVisualization.setPreferredSize(new Dimension(700,300));
-        panelContainer.add(panelVisualization, BorderLayout.SOUTH);
-
-        panelVisualization.repaint();
         panelContainer.revalidate();
         panelContainer.repaint();
         return panelContainer;
@@ -411,6 +405,10 @@ public class GraphGUI extends JFrame {
                 if (graphUtility.getGraph().getNodes().contains(startNode)) {
                     visited = graphUtility.breadthFirstSearch(startNode);
                 }
+            } else if (btnGrpRadio.isSelected(radioBtnDfs.getModel())) {
+                if (graphUtility.getGraph().getNodes().contains(startNode)) {
+                    visited = graphUtility.depthFirstSearch(startNode, (ArrayList<Vertex>) visited);
+                }
             }
             txtAreaOutput.setText("Results:\n" + visited.toString());
         });
@@ -486,10 +484,23 @@ public class GraphGUI extends JFrame {
         // Output Panel
         JPanel panelOutput = new JPanel();
         panelOutput.setPreferredSize(new Dimension(700,300));
+        panelOutput.setBackground(resources.white);
         panelContainer.add(panelOutput, BorderLayout.SOUTH);
 
         JTextArea txtAreaOutput = createTextAreaOutput();
         panelOutput.add(txtAreaOutput);
+
+        btnFind.addActionListener(e -> {
+            Vertex startNode = new Vertex(txtFieldStartNode.getText());
+            Vertex endNode = new Vertex(txtFieldEndNode.getText());
+            List<Vertex> visited = new ArrayList<>();
+            if (btnGrpRadio.isSelected(radioBtnDijkstra.getModel())) {
+                if (graphUtility.getGraph().getNodes().contains(startNode) && graphUtility.getGraph().getNodes().contains(endNode)) {
+                    visited = graphUtility.dijkstraShortestPath(graphUtility.getGraph(), startNode, endNode);
+                }
+            }
+            txtAreaOutput.setText("Results:\n" + visited.toString() +"\n\n" + graphUtility.getDijkstraData().toString());
+        });
 
         panelContainer.revalidate();
         panelContainer.repaint();
