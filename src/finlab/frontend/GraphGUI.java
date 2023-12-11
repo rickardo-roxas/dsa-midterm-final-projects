@@ -305,7 +305,7 @@ public class GraphGUI extends JFrame {
 
         // Container Panel Components
         JPanel panelText = new JPanel();
-        panelText.setPreferredSize(new Dimension(800,400));
+        panelText.setPreferredSize(new Dimension(800,500));
         panelText.setLayout(new GridLayout(1,1));
         panelText.setBackground(resources.white);
 
@@ -315,18 +315,12 @@ public class GraphGUI extends JFrame {
         panelText.add(txtAreaOutput);
 
         JScrollPane scrollPane = new JScrollPane(panelText);
-        scrollPane.setPreferredSize(new Dimension(500,100));
+        scrollPane.setPreferredSize(new Dimension(500,400));
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         panelContainer.add(scrollPane, BorderLayout.NORTH);
 
-        // Container Panel Components
-        JPanel panelVisualization = new GraphVisualization(graphUtility);
-        panelVisualization.setPreferredSize(new Dimension(700,300));
-        panelContainer.add(panelVisualization, BorderLayout.SOUTH);
-
-        panelVisualization.repaint();
         panelContainer.revalidate();
         panelContainer.repaint();
         return panelContainer;
