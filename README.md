@@ -9,3 +9,8 @@ In this project, we are tasked to take an input infix expression from the user a
 ## Project 2: Huffman Coding
 
 For this project, we are tasked to implement the Huffman Coding technique. The user will prompt a phrase/paragraph/sentence and the program should generate a huffman table that includes the characters and their corresponding binary code. We are also tasked to add features such as plain text to huffman code conversion, and vice versa.
+
+## Project 3: Graph Theory
+
+This project illustrates the Graph data structure. The user will be prompted to import an adjacency matrix, and the program can traverse it using the breadth-first and depth-first search algorithms. It can also find the shortest path from each vertices using the Dijkstra algorithm.
+
